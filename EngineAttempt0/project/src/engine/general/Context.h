@@ -4,7 +4,6 @@
 class Context
 {
 	public:
-
 	static bool CreateContext(int screenWidth, int screenHeight, std::string title);
 
 	//Returns true if the window should close.

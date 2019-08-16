@@ -81,6 +81,21 @@
     <ClCompile Include="project\src\engine\rendering\ModelImporter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="project\src\engine\general\GameObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="project\src\engine\general\Component.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="project\src\engine\components\MeshRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="project\src\engine\components\MeshRender.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="project\src\engine\general\Transform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="project\src\pch\pch.h">
@@ -1106,9 +1121,6 @@
     <ClInclude Include="project\src\engine\rendering\Image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="project\src\engine\rendering\RenderEntity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="project\src\engine\general\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1116,6 +1128,36 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="project\src\engine\rendering\ModelImporter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="project\src\engine\general\Transform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="project\src\engine\rendering\MasterRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="project\src\engine\rendering\Material.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="project\src\engine\general\Component.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="project\src\engine\components\MeshRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="project\src\engine\general\GameObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="project\src\engine\general\Application.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="project\src\engine\general\Scene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="project\src\engine\general\Game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="project\src\engine\components\MeshRender.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

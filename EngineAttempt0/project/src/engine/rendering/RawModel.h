@@ -1,5 +1,7 @@
 #pragma once
 #include "pch.h"
+#include "..//general/Transform.h"
+#include "..//general/Component.h"
 
 class RawModel
 {
@@ -9,6 +11,7 @@ class RawModel
 	  vaoID, eboID and drawcount.
 	*/
 	RawModel(unsigned int vaoID, unsigned int eboID, unsigned int drawCount);
+	RawModel() {}
 
 	/*
 	* Called via Renderer class when it's about to draw the RawModel.

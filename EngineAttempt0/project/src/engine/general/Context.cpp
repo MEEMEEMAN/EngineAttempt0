@@ -3,6 +3,7 @@ GLFWwindow* Context::mWindow;
 vec2 Context::mScreenDimensions;
 bool Context::mOK;
 
+
 bool Context::CreateContext(int screenWidth, int screenHeight, std::string title)
 {
 	if (!glfwInit())
@@ -28,6 +29,7 @@ bool Context::CreateContext(int screenWidth, int screenHeight, std::string title
 	}
 	glViewport(0,0, screenWidth, screenHeight);
 	glfwSetWindowSizeCallback(mWindow, resize_callback);
+	
 
 	mOK = true;
 	

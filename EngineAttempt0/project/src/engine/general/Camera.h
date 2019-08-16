@@ -1,14 +1,23 @@
 #pragma once
 #include "pch.h"
 #include "..//Input.h"
+#include "Component.h"
+#include "Time.h"
 
-class Camera
+/*
+* Camera class, acts as a freecam
+*/
+class Camera : public Component
 {
 	public:
 
+	Camera(float fov, float screenWidth, float screenHeight)
+	{
+		mProjectionMatrix = glm::perspective(glm::radians(fov),
+			screenWidth / screenHeight, 0.01f, 1000.0f);
+	}
 
-
-	void Update()
+	void Update() override
 	{
 		vec2 mouseDelta = Input::GetMouseDelta() * 0.1f;
 		mPitch += mouseDelta.y;
@@ -63,7 +72,7 @@ class Camera
 		{
 			timer = 1;
 		}
-
+		
 		vec2 wasd = Input::GetWASDNormalized() * 3.0f * (float)Time::DeltaTime() * (timer * timer);
 		position += front * wasd.y;
 		position += right * wasd.x;
@@ -71,14 +80,20 @@ class Camera
 		mViewMatrix = glm::translate(mViewMatrix, position);
 	}
 
-	mat4 GetViewMatrix()
+	inline mat4 GetViewMatrix()
 	{
 		return mViewMatrix;
+	}
+
+	inline mat4 GetProjectionMatrix()
+	{
+		return mProjectionMatrix;
 	}
 
 	vec3 position = vec3(0);
 	private:
 	float timer = 1;
 	float mPitch = 0, mYaw = 0;
-	mat4 mViewMatrix;
+	mat4 mViewMatrix = mat4(1), mProjectionMatrix = mat4(1);
+
 };

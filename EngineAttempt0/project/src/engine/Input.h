@@ -9,10 +9,16 @@ class Input
 	static std::vector<int> m_MouseCache;
 	static glm::vec2 m_MouseDelta;
 	static float scrollDelta;
-
+	static bool mFocused;
+	
 	static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 	{
 		scrollDelta = yoffset;
+	}
+	
+	static void focus_callback(GLFWwindow* window, int focused)
+	{
+		mFocused = focused;
 	}
 
 public:
@@ -32,6 +38,12 @@ public:
 	//returns a not normalized WASD or arrow key press vector.
 	static glm::vec2 GetWASDVector();
 	static void LockCursor(bool state);
+
+	static void Initialize()
+	{
+		glfwSetScrollCallback(Context::GetMainWindow(), scroll_callback);
+		glfwSetWindowFocusCallback(Context::GetMainWindow(), focus_callback);
+	}
 
 	static inline vec2 GetClampedMousePos()
 	{

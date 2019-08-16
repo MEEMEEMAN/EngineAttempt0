@@ -1,7 +1,7 @@
 #pragma once
 #include "pch.h"
 
-class IMGUI
+class GUI
 {
 	public:
 

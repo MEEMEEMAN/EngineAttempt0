@@ -8,6 +8,8 @@ class Loader
 	public:
 	//Load a rawmodel with only position data.
 	RawModel Load(unsigned int index ,unsigned int dimensions,std::vector<float>* positions);
+
+	RawModel Load(unsigned int index, std::vector<vec3>* positions);
 	
 	//Load a rawmodel with position and draw index data.
 	RawModel Load(unsigned int index, unsigned int dimensions, 

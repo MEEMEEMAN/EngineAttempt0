@@ -8,78 +8,76 @@ const std::string GLSL_VERSION = "#version 420 core";
 
 int main()
 {
+	Application app;
+	app.Initialize(SCR_WIDTH, SCR_HEIGHT, title);
+	GUI::Initialize(GLSL_VERSION);
 
-	if (!Context::CreateContext(SCR_WIDTH, SCR_HEIGHT, title))
-	{
-		return -1;
-	}
-	IMGUI::Initialize(GLSL_VERSION);
+	/*
+		ECS DEMO
+	*/
+	GameObject camera;
+	camera.AddComponent(new Camera(65, SCR_WIDTH, SCR_HEIGHT));
 
-	std::vector<float> positions = 
-	{
-		-0.5f, -0.5f, 0,
-		0.5f, -0.5f, 0,
-		0.5f, 0.5f, 0,
-		-0.5f, 0.5f, 0,
-	};
+	GameObject cubeObject;
+	cubeObject.AddComponent(new MeshRenderer("project/assets/models/cube.glb"));
+	
+	Camera* camComponent = camera.GetComponent<Camera>();
+	MasterRenderer renderer(camComponent);
+	MeshRenderer::renderer = &renderer;
 
-	std::vector<unsigned int> indices
-	{
-		0,1,2,
-		0,2, 3
-	};
+	/**/
 	
 	Loader loader;
-	RawModel model = loader.ImportSimpleModel("project/assets/models/cube.glb");//loader.Load(0,3,&positions, &indices);	
 
 	ShaderProgram pg("project/src/engine/shaders/basic.vert", "project/src/engine/shaders/basic.frag");
-	pg.RunProgram();
-	Renderer renderer;
-
-	mat4 projection = glm::perspective(glm::radians(65.0f),
-			(float)SCR_WIDTH / (float)SCR_HEIGHT, 0.01f, 1000.0f);
+	Material basicMat(pg);
 
 	GLTexture texture;
 	texture.LoadTexture2D("project/assets/textures/box.jpg", true);
 	texture.BindTexture2D(0);
-
-	Camera cam;
-
+	
 	glfwSwapInterval(1);
 	glClearColor(0.3f, 0.3f, 1, 1);
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
+	//glEnable(GL_CULL_FACE);
+
+	//RawModel cube = loader.ImportSimpleModel("project/assets/models/cube.glb");
 
 	bool toggle = false;
 	bool toggleWireFrame = false;
+	bool vsyncBtn = true;
 	while (!Context::WindowShouldClose())
 	{
 		Time::Update();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		IMGUI::BeginFrame();
-		cam.Update();
+		GUI::BeginFrame();
 
 		static float rotation = 0;
 		rotation += 90 * Time::DeltaTime();
-		mat4 modelMatrix = mat4(1);
-		modelMatrix = glm::translate(modelMatrix, vec3(0,0, -1));
-		modelMatrix = glm::rotate(modelMatrix, glm::radians(rotation), vec3(0,1,0));
+		cubeObject.transform.rotaiton = vec3(rotation, rotation,0);
 
-		pg.SetMat4f("model", modelMatrix);
-		pg.SetMat4f("projection", projection);
-		pg.SetMat4f("view", cam.GetViewMatrix());
 
 		if (Input::GetKeyDown(GLFW_KEY_F1))
 		{
 			toggle = !toggle;
 			Input::LockCursor(toggle);
 		}
+		
+		camera.Update();
+		cubeObject.Update();
 
-		renderer.Draw(model);
+		renderer.InitiateRender();
+
+		//glDrawElements(GL_TRIANGLES, cube.GetDrawCount(), GL_UNSIGNED_INT, 0);
 		{
+			std::stringstream ss;
 			ImGui::Begin("Debug Info");
 			std::string avgFPS = "Avg FPS: " + std::to_string(1/Time::GetAvgDelta());
 			ImGui::Text(avgFPS.c_str());
+			std::string avgDelta = "Avg Delta: " + std::to_string(Time::GetAvgDelta());
+			ImGui::Text(avgDelta.c_str());
+			ss << "CamPos: " << camComponent->position;
+			ImGui::Text(ss.str().c_str());
 			bool btn = ImGui::Button("WireFrame");
 
 			if (btn)
@@ -91,10 +89,23 @@ int main()
 					else
 					glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 			}
+
+			bool vsync = ImGui::Button("Vsync");
+
+			if (vsync)
+			{
+				vsyncBtn = !vsyncBtn;
+
+				if(vsyncBtn)
+					glfwSwapInterval(1);
+				else
+					glfwSwapInterval(0);
+			}
+
 			ImGui::End();
 		}
 		
-		IMGUI::EndFrame();
+		GUI::EndFrame();
 		Context::SwapBuffers();
 		Input::Update();
 

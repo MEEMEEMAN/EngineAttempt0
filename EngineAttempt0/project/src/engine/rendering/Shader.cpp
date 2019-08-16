@@ -113,6 +113,9 @@ void ShaderProgram::LinkProgram()
 
 void ShaderProgram::RunProgram()
 {
+	if(activeProgram == this)
+		return;
+
 	activeProgram = this;
 	glUseProgram(mID);
 }

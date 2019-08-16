@@ -1,7 +1,7 @@
 #include "ImmediateGUI.h"
 #include "Context.h"
 
-void IMGUI::Initialize(std::string GLSL_VERSION)
+void GUI::Initialize(std::string GLSL_VERSION)
 {
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -11,14 +11,14 @@ void IMGUI::Initialize(std::string GLSL_VERSION)
 	ImGui_ImplOpenGL3_Init(GLSL_VERSION.c_str());
 }
 
-void IMGUI::BeginFrame()
+void GUI::BeginFrame()
 {
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
 }
 
-void IMGUI::EndFrame()
+void GUI::EndFrame()
 {
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

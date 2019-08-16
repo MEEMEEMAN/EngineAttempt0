@@ -5,6 +5,7 @@ std::vector<int> Input::m_MouseCache;
 double Input::MouseX = 0.0f, Input::MouseY = 0.0f;
 glm::vec2 Input::m_MouseDelta;
 float Input::scrollDelta;
+bool Input::mFocused = false;
 
 bool Input::GetKeyDown(int glkeycode)
 {
@@ -80,7 +81,7 @@ void Input::Update()
 		}
 	}
 
-
+	
 	double xpos, ypos;
 	glfwGetCursorPos(Context::GetMainWindow(), &xpos, &ypos);
 

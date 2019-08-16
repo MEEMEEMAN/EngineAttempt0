@@ -22,16 +22,22 @@ void Time::Update()
 
 	auto delta = endTime - startTimePoint;
 
+	static int frame = 0;
+
 	//Converting from nanoseconds to seconds.
+	if(frame > 0)
 	mDeltaTime = delta.count() * 0.000000001;
 	CalcAVGDelta();
-
-	static int frame = 0;
 	
-	if(frame > 0)
-	beginTimer += mDeltaTime;
+	if (frame > 0)
+	{
+		beginTimer += mDeltaTime;
+	}
+	else
+	{
+		frame++;
+	}
 
-	frame++;
 	startTimePoint = endTime;
 }
 

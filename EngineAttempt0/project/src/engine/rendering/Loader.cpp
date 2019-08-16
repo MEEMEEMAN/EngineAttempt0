@@ -13,6 +13,17 @@ RawModel Loader::Load(unsigned int index, unsigned int dimensions, std::vector<f
 	return model;
 }
 
+RawModel Loader::Load(unsigned int index, std::vector<vec3>* positions)
+{
+	unsigned int vao = GenVAO();
+	glBindVertexArray(vao);
+
+	LoadData(index, positions);
+
+	RawModel model(vao, 0, positions->size() /3);
+	return model;
+}
+
 RawModel Loader::Load(unsigned int index, unsigned int dimensions,
 	std::vector<float>* positions, std::vector<unsigned int>* indices)
 {
