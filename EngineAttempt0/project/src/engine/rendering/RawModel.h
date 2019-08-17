@@ -2,6 +2,7 @@
 #include "pch.h"
 #include "..//general/Transform.h"
 #include "..//general/Component.h"
+#include "GLTexture.h"
 
 class RawModel
 {

@@ -20,7 +20,7 @@ class MasterRenderer
 	{
 
 	}
-	
+
 	void SubmitRender(MeshRenderer* model, Material* mat)
 	{
 		AddToQueue(model, mat);

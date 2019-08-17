@@ -26,6 +26,11 @@ public:
 	}
 
 	/*
+	* This function frees all of the memory that it occupies including the components.
+	*/
+	void Destroy();
+
+	/*
 	* This call first updates the Transform component, which applies the model matrix,
 	after the Transform is updated, all corresponding components of this GameObject get updated
 	aswell. the component update order is dependant on the order which they were added in.

@@ -45,5 +45,5 @@ void GLTexture::BindTexture2D(unsigned int slot)
 	}
 
 	glActiveTexture(slot);
-	glBindTexture(GL_TEXTURE_2D, slot);
+	glBindTexture(GL_TEXTURE_2D, mID);
 }

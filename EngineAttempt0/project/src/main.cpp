@@ -12,36 +12,33 @@ int main()
 	app.Initialize(SCR_WIDTH, SCR_HEIGHT, title);
 	GUI::Initialize(GLSL_VERSION);
 
-	/*
-		ECS DEMO
-	*/
+	Loader loader;
+
+#pragma region Asset Loading & Scene Building
 	GameObject camera;
 	camera.AddComponent(new Camera(65, SCR_WIDTH, SCR_HEIGHT));
 
-	GameObject cubeObject;
-	cubeObject.AddComponent(new MeshRenderer("project/assets/models/cube.glb"));
-	
 	Camera* camComponent = camera.GetComponent<Camera>();
 	MasterRenderer renderer(camComponent);
 	MeshRenderer::renderer = &renderer;
 
-	/**/
-	
-	Loader loader;
+	GLTexture boxTexture;
+	boxTexture.LoadTexture2D("project/assets/textures/box.jpg", true);
+	boxTexture.BindTexture2D(0);
 
-	ShaderProgram pg("project/src/engine/shaders/basic.vert", "project/src/engine/shaders/basic.frag");
-	Material basicMat(pg);
-
-	GLTexture texture;
-	texture.LoadTexture2D("project/assets/textures/box.jpg", true);
-	texture.BindTexture2D(0);
+	TexturedMaterial cubeTexMat(ShaderProgram("project/src/engine/shaders/basic.vert", 
+											  "project/src/engine/shaders/basic.frag"));
+	cubeTexMat.AddTexture(boxTexture);
+	GameObject cubeObject;
+	cubeObject.AddComponent(new MeshRenderer("project/assets/models/sphere.glb", cubeTexMat));
+#pragma endregion
 	
 	glfwSwapInterval(1);
 	glClearColor(0.3f, 0.3f, 1, 1);
 	glEnable(GL_DEPTH_TEST);
-	//glEnable(GL_CULL_FACE);
 
-	//RawModel cube = loader.ImportSimpleModel("project/assets/models/cube.glb");
+	SkyboxRenderer skybox("project/assets/textures/spaceCubemap");
+	skybox.cam = camComponent;
 
 	bool toggle = false;
 	bool toggleWireFrame = false;
@@ -51,6 +48,7 @@ int main()
 		Time::Update();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		GUI::BeginFrame();
+		skybox.Render();
 
 		static float rotation = 0;
 		rotation += 90 * Time::DeltaTime();
@@ -68,7 +66,8 @@ int main()
 
 		renderer.InitiateRender();
 
-		//glDrawElements(GL_TRIANGLES, cube.GetDrawCount(), GL_UNSIGNED_INT, 0);
+		#pragma region ImGui
+
 		{
 			std::stringstream ss;
 			ImGui::Begin("Debug Info");
@@ -104,6 +103,8 @@ int main()
 
 			ImGui::End();
 		}
+
+		#pragma endregion
 		
 		GUI::EndFrame();
 		Context::SwapBuffers();

@@ -14,27 +14,24 @@ GameObject* owner;
 
 	void StartComponent();
 
-	inline void SetActive(bool value)
-	{
-		mActive = value;
-	}
-
-	inline bool isActive()
-	{
-		return mActive;
-	}
-
 	void Destroy();
 
 	protected:
+	/*
+	* The Update function gets invoked every frame.
+	*/
 	virtual void Update()
 	{
 
 	}
 
+	/*
+	* The Start function gets invoked on Component instantiation.
+	* Start gets called after the constructor, only once the Component is added to the GameObject
+	successfully.
+	*/
 	virtual void Start()
 	{
 
 	}
-	bool mActive = true;
 };

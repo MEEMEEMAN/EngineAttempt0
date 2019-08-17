@@ -16,6 +16,15 @@ public:
 	void Delete();
 };
 
+
+/*
+* Important notice: the vertex attribute layout index is listed as follows -
+	layout(location = 0) in vec3 positions;
+	layout(location = 1) in vec2 uvs;
+	layout(location = 2) in vec3 normals;
+	layout(location = 3) in vec3 tangents;
+	layout(location = 4) in vec3 biTangents;
+*/
 class ShaderProgram : public GLObject
 {
 public:

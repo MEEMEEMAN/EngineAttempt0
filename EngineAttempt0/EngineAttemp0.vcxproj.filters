@@ -1160,6 +1160,21 @@
     <ClInclude Include="project\src\engine\components\MeshRender.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="project\src\engine\rendering\Skybox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="project\src\engine\rendering\GLCube.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="project\src\engine\materials\TexturedMat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="project\src\engine\rendering\ComplexModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="project\src\engine\components\ComplexMeshRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="project\dependencies\assimp\include\assimp\color4.inl">
@@ -1584,5 +1599,7 @@
     </None>
     <None Include="project\src\engine\shaders\basic.vert" />
     <None Include="project\src\engine\shaders\basic.frag" />
+    <None Include="project\src\engine\shaders\skybox.vert" />
+    <None Include="project\src\engine\shaders\skybox.frag" />
   </ItemGroup>
 </Project>

@@ -46,9 +46,13 @@ GLMesh* ModelImporter::Import(std::string filepath)
 
 	if (!exists)
 	{
+		conlog("*** BEGINNING SERIALIZATION ***");
+		conlog("Output Path: " << queryFile);
 		Serialize(glmesh, queryFile);
+		conlog("*** SERIALIZATION ENDED ***");
 	};
 
+	conlog("*** ENDED MODEL IMPORT***");
 	return glmesh;
 }
 

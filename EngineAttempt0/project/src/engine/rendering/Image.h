@@ -12,6 +12,10 @@ struct Pixel
 	float A;
 };
 
+/*
+* Class for managing images.
+* image data gets destroyed upon destructor.
+*/
 class Image
 {
 public:

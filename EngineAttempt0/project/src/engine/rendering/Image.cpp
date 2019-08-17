@@ -6,7 +6,7 @@ void Image::LoadImage(std::string filepath, bool flipVertically)
 		std::fstream fileCheck(filepath);
 		if (!fileCheck.good())
 		{
-			conlog("[Image]: Coult not load from filepath: " << filepath);
+			conlog("[Image]: Could not load from filepath: " << filepath);
 			fileCheck.close();
 			return;
 		}

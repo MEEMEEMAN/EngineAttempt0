@@ -12,6 +12,5 @@ class GLTexture : public GLObject
 
 	void BindTexture2D(unsigned int slot);
 
-
 	private:
 };

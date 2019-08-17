@@ -7,6 +7,14 @@ void GameObject::AddComponent(Component* component)
 	component->StartComponent();
 }
 
+void GameObject::Destroy()
+{
+	for (size_t i = 0; i < components.size(); i++)
+	{
+		delete(components[i]);
+	}
+}
+
 void GameObject::Update()
 {
 	mat4 modelMatrix = mat4(1);

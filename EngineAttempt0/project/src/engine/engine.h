@@ -16,5 +16,8 @@
 #include "rendering/Renderer.h"
 #include "rendering/MasterRenderer.h"
 #include "rendering/GLTexture.h"
+#include "rendering/Skybox.h"
 
 #include "components/MeshRender.h"
+
+#include "materials/TexturedMat.h"

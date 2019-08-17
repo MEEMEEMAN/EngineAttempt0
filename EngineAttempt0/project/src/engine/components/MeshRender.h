@@ -15,16 +15,13 @@ class MeshRenderer : public Component
 	MeshRenderer() {};
 
 	/*
-	* RawModel gets loaded up from a specified filepath
-	* the material initializes and creates a shader from the
-		"project/src/engine/shaders/basic" vertex and fragment types.
+	* a RawModel gets loaded up from a specified filepath.
+	* The inputed material will be used for rendering the RawModel.
 	*/
-	MeshRenderer(std::string meshFilepath)
+	MeshRenderer(std::string meshFilepath, Material material)
 	{	
 		rawmodel = loader.ImportSimpleModel(meshFilepath);
-
-		mat = Material(ShaderProgram("project/src/engine/shaders/basic.vert",
-										"project/src/engine/shaders/basic.frag"));
+		mat = material;
 	}
 
 	void Update() override;

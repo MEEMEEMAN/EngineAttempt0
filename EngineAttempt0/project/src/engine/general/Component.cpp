@@ -2,9 +2,6 @@
 
 void Component::UpdateComponent()
 {
-	if (!mActive)
-		return;
-
 	Update();
 }
 
