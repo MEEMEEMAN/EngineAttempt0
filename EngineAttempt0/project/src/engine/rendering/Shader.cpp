@@ -57,9 +57,11 @@ void Shader::ParseShader(std::string& filepath)
 			char* message = (char*)_malloca(length * sizeof(char));
 			glGetShaderInfoLog(mID, length, &length, message);
 			std::cout << "*** FAILED TO COMPILE SHADER***\n";
-			std::string sType = shaderType == GL_VERTEX_SHADER ? "Vertex" : "Fragment";
+			std::string sType = shaderType == GL_VERTEX_SHADER 
+				? "Vertex" : shaderType == GL_FRAGMENT_SHADER ? "Fragment" : "Geometry";
 			std::cout << "Shader id: " << mID << " of type " << sType << "\n";
-			std::cout << "*******************************\n";
+			std::cout << message << "\n";
+			std::cout << "*******************************";
 			delete message;
 			glDeleteShader(mID);
 		}
@@ -89,6 +91,7 @@ ShaderProgram::ShaderProgram(Shader& vs, Shader& fs)
 	glAttachShader(mID, vs.GetID());
 	glAttachShader(mID, fs.GetID());
 	LinkProgram();
+	Unbind();
 }
 
 ShaderProgram::ShaderProgram(std::string vertexFilepath, std::string fragmentFilepath)
@@ -97,12 +100,14 @@ ShaderProgram::ShaderProgram(std::string vertexFilepath, std::string fragmentFil
 	Shader fragment(fragmentFilepath);
 
 	mID = glCreateProgram();
+	RunProgram();
 	AttachShader(vertex);
 	AttachShader(fragment);
 	LinkProgram();
 
 	vertex.Delete();
 	fragment.Delete();
+	Unbind();
 }
 
 void ShaderProgram::LinkProgram()

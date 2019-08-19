@@ -1,3 +1,4 @@
+#pragma once
 #include "Context.h"
 GLFWwindow* Context::mWindow;
 vec2 Context::mScreenDimensions;

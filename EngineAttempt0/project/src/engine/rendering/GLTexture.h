@@ -7,7 +7,21 @@ class GLTexture : public GLObject
 {
 	public:
 
-	void LoadTexture2D(std::string filepath, bool flipVertically);
+	GLTexture(unsigned int id)
+	{
+		mID =id;
+	}
+
+	GLTexture()
+	{
+
+	}
+
+	static void Unbind()
+	{
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
 
 
 	void BindTexture2D(unsigned int slot);

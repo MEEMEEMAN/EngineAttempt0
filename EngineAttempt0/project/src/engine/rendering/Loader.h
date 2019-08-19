@@ -17,6 +17,46 @@ class Loader
 	RawModel Load(unsigned int index, unsigned int dimensions, 
 				std::vector<float> * positions, std::vector<unsigned int>* indices);
 
+	RawModel Load(std::vector<vec3>* positions, std::vector<vec2>* uvs);
+
+	RawModel Load(std::vector<vec3>* positions, std::vector<vec2>* uvs, std::vector<unsigned int>* indices);
+
+	GLTexture loadTexture(std::string filepath, bool flipVertically)
+	{
+		unsigned int id;
+		Image image(filepath, flipVertically);
+
+		GLuint format = GL_RGB;
+		switch (image.PixelChannels())
+		{
+		case 3:
+			format = GL_RGB;
+			break;
+		case 4:
+			format = GL_RGBA;
+			break;
+		default:
+			conlog("UnSupported image format? " << image.PixelChannels() << " channels found.");
+			return	GLTexture(0);
+		}
+
+		glGenTextures(1, &id);
+		glBindTexture(GL_TEXTURE_2D, id);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, -0.4f);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, format, image.GetImageWidth(), image.GetImageHeight(), 0,
+			format, GL_UNSIGNED_BYTE, image.GetImageData());
+
+		glGenerateMipmap(GL_TEXTURE_2D);
+
+		return GLTexture(id);
+	}
+
 	/*
 	* You must provide the directory which all of your images reside.
 	* this function is going to search for the following image names in the following order:

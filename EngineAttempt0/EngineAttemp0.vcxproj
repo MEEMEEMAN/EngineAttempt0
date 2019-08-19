@@ -100,6 +100,7 @@
     <ClCompile Include="project\dependencies\stb\stb_image.cpp" />
     <ClCompile Include="project\src\engine\components\MeshRender.cpp" />
     <ClCompile Include="project\src\engine\components\MeshRenderer.cpp" />
+    <ClCompile Include="project\src\engine\general\Camera.cpp" />
     <ClCompile Include="project\src\engine\general\Component.cpp" />
     <ClCompile Include="project\src\engine\general\Context.cpp" />
     <ClCompile Include="project\src\engine\general\GameObject.cpp" />
@@ -451,10 +452,12 @@
     <ClInclude Include="project\dependencies\imgui\imstb_truetype.h" />
     <ClInclude Include="project\dependencies\stb\stb_image.h" />
     <ClInclude Include="project\src\engine\components\ComplexMeshRenderer.h" />
+    <ClInclude Include="project\src\engine\components\GUIRenderer.h" />
     <ClInclude Include="project\src\engine\components\MeshRender.h" />
     <ClInclude Include="project\src\engine\components\MeshRenderer.h" />
     <ClInclude Include="project\src\engine\materials\TexturedMat.h" />
     <ClInclude Include="project\src\engine\rendering\ComplexModel.h" />
+    <ClInclude Include="project\src\engine\rendering\FBO.h" />
     <ClInclude Include="project\src\engine\rendering\GLCube.h" />
     <ClInclude Include="project\src\engine\rendering\Skybox.h" />
     <ClInclude Include="project\src\engine\general\Application.h" />
@@ -624,8 +627,14 @@
     <None Include="project\dependencies\glm\gtx\wrap.inl" />
     <None Include="project\src\engine\shaders\basic.frag" />
     <None Include="project\src\engine\shaders\basic.vert" />
+    <None Include="project\src\engine\shaders\gui.frag" />
+    <None Include="project\src\engine\shaders\gui.vert" />
+    <None Include="project\src\engine\shaders\guitest.frag" />
+    <None Include="project\src\engine\shaders\guitest.vert" />
     <None Include="project\src\engine\shaders\skybox.frag" />
     <None Include="project\src\engine\shaders\skybox.vert" />
+    <None Include="project\src\engine\shaders\water.frag" />
+    <None Include="project\src\engine\shaders\water.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

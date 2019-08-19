@@ -37,6 +37,8 @@ public:
 	*/
 	void Update();
 
+	void UpdateTransform();
+
 	Transform transform;
 protected:
 

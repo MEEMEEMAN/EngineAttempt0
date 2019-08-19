@@ -40,16 +40,19 @@ class MasterRenderer
 			{
 				GameObject *gamobject = it->second[i]->owner;
 				it->first->
-				SubmitMVP(gamobject->transform.modelMatrix, cam->GetViewMatrix(), cam->GetProjectionMatrix());
-				//mat4 modelMatrix = it->second[i]->owner->transform.modelMatrix;
-				//shader->SetMat4f("model", modelMatrix);
-				//shader->SetMat4f("view", cam->GetViewMatrix());
-				//shader->SetMat4f("projection", cam->GetProjectionMatrix());
+				SubmitMVP(gamobject->transform.modelMatrix, 
+					cam->GetViewMatrix(), cam->GetProjectionMatrix());
+
 				threeDRenderer.Draw(&it->second[i]->rawmodel);
 			}
 		}
 
 		renderQueue.clear();
+	}
+
+	void SetCam(Camera* camera)
+	{
+		cam = camera;
 	}
 
 	private:

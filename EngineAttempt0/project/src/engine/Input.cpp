@@ -183,3 +183,36 @@ glm::vec2 Input::GetWASDNormalized()
 
 	return glm::normalize(vec2(side, forward));
 }
+
+vec2 Input::GetClampedMousePos()
+{
+	vec2 dimensions = Context::GetCurrentDimensions();
+	vec2 ret = vec2(0);
+	if (MouseX > dimensions.x)
+	{
+		ret.x = dimensions.x;
+	}
+	else if (MouseX < 0)
+	{
+		ret.x = 0;
+	}
+	else
+	{
+		ret.x = MouseX;
+	}
+
+	if (MouseY > dimensions.y)
+	{
+		ret.y = dimensions.y;
+	}
+	else if (MouseY < 0)
+	{
+		ret.y = 0;
+	}
+	else
+	{
+		ret.y = MouseY;
+	}
+
+	return ret;
+}

@@ -15,7 +15,7 @@ void GameObject::Destroy()
 	}
 }
 
-void GameObject::Update()
+void GameObject::UpdateTransform()
 {
 	mat4 modelMatrix = mat4(1);
 
@@ -28,6 +28,11 @@ void GameObject::Update()
 	modelMatrix = glm::scale(modelMatrix, transform.scale);
 
 	transform.modelMatrix = modelMatrix;
+}
+
+void GameObject::Update()
+{
+	UpdateTransform();
 
 	for (size_t i = 0; i < components.size(); i++)
 	{

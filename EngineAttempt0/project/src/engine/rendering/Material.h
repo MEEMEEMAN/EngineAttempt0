@@ -5,7 +5,7 @@
 class Material
 {
 	public:
-	Material(ShaderProgram shader)
+	Material(ShaderProgram* shader)
 	{
 		mShader = shader;
 	}
@@ -17,10 +17,10 @@ class Material
 
 	inline ShaderProgram* GetShader()
 	{
-		return &mShader;
+		return mShader;
 	}
 
-	void ChangeShader(ShaderProgram otherShader)
+	void ChangeShader(ShaderProgram* otherShader)
 	{
 		mShader = otherShader;
 	}
@@ -32,16 +32,16 @@ class Material
 
 	void SubmitMVP(mat4 model, mat4 view, mat4 projection)
 	{
-		mShader.SetMat4f("model", model);
-		mShader.SetMat4f("view", view);
-		mShader.SetMat4f("projection", projection);
+		mShader->SetMat4f("model", model);
+		mShader->SetMat4f("view", view);
+		mShader->SetMat4f("projection", projection);
 	}
 
 	void Bind()
 	{
-		mShader.RunProgram();
+		mShader->RunProgram();
 	}
 
 	protected:
-	ShaderProgram mShader;
+	ShaderProgram* mShader = 0;
 };

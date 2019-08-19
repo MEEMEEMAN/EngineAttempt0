@@ -16,16 +16,20 @@ class SkyboxRenderer
 		Loader loader;
 		skyboxCube = loader.ImportSimpleModel("project/assets/models/cube.glb");
 
-		ShaderProgram skyboxProgram("project/src/engine/shaders/skybox.vert", 
+		ShaderProgram* skyboxProgram = new ShaderProgram("project/src/engine/shaders/skybox.vert", 
 									"project/src/engine/shaders/skybox.frag");
 		skyboxMat = Material(skyboxProgram);
 		cubemapTexture = loader.LoadCubemap(cubefolderpath);
 	}
 
-	void Render()
+	float yaw = 0;
+	void Rotate()
 	{
-		glDepthMask(GL_FALSE);
-		
+		yaw += Time::DeltaTime() * 5;
+	}
+
+	void Render()
+	{		
 		skyboxMat.Bind();
 
 		mat4 view = cam->GetViewMatrix();
@@ -33,15 +37,18 @@ class SkyboxRenderer
 
 		static float timer = 0;
 		timer += Time::DeltaTime();
+		mat4 model = mat4(1);
+		model = glm::rotate(model, glm::radians(yaw), glm::vec3(1,1,1));
 
+		skyboxMat.GetShader()->SetMat4f("model", model);
 		skyboxMat.GetShader()->SetMat4f("projection", cam->GetProjectionMatrix());
 		skyboxMat.GetShader()->SetMat4f("view", view);
-		skyboxMat.GetShader()->SetUniform1f("time", timer);
 		cubemapTexture.BindCubemap(0);
 		skyboxCube.Bind();
-		glDrawElements(GL_TRIANGLES, skyboxCube.GetDrawCount(), GL_UNSIGNED_INT, 0);
 
-		glDepthMask(GL_TRUE);
+		glDepthFunc(GL_LEQUAL);
+		glDrawElements(GL_TRIANGLES, skyboxCube.GetDrawCount(), GL_UNSIGNED_INT, 0);
+		glDepthFunc(GL_LESS);
 	}
 
 	private:

@@ -24,6 +24,33 @@ RawModel Loader::Load(unsigned int index, std::vector<vec3>* positions)
 	return model;
 }
 
+RawModel Loader::Load(std::vector<vec3>* positions, std::vector<vec2>* uvs)
+{
+	unsigned int vao = GenVAO();
+	glBindVertexArray(vao);
+
+	LoadData(0, positions);
+	LoadData(1, uvs);
+
+	size_t size = positions->size();
+	RawModel model(vao, 0, size);
+	return model;
+}
+
+RawModel Loader::Load(std::vector<vec3>* positions, std::vector<vec2>* uvs, std::vector<unsigned int>* indices)
+{
+	unsigned int vao = GenVAO();
+	glBindVertexArray(vao);
+
+	unsigned int ebo = LoadIndices(indices);
+	LoadData(0, positions);
+	LoadData(1, uvs);
+
+	size_t size = indices->size();
+	RawModel model(vao, ebo, size);
+	return model;
+}
+
 RawModel Loader::Load(unsigned int index, unsigned int dimensions,
 	std::vector<float>* positions, std::vector<unsigned int>* indices)
 {

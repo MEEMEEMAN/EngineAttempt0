@@ -96,6 +96,9 @@
     <ClCompile Include="project\src\engine\general\Transform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="project\src\engine\general\Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="project\src\pch\pch.h">
@@ -1175,6 +1178,12 @@
     <ClInclude Include="project\src\engine\components\ComplexMeshRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="project\src\engine\rendering\FBO.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="project\src\engine\components\GUIRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="project\dependencies\assimp\include\assimp\color4.inl">
@@ -1601,5 +1610,11 @@
     <None Include="project\src\engine\shaders\basic.frag" />
     <None Include="project\src\engine\shaders\skybox.vert" />
     <None Include="project\src\engine\shaders\skybox.frag" />
+    <None Include="project\src\engine\shaders\gui.vert" />
+    <None Include="project\src\engine\shaders\gui.frag" />
+    <None Include="project\src\engine\shaders\water.frag" />
+    <None Include="project\src\engine\shaders\water.vert" />
+    <None Include="project\src\engine\shaders\guitest.vert" />
+    <None Include="project\src\engine\shaders\guitest.frag" />
   </ItemGroup>
 </Project>

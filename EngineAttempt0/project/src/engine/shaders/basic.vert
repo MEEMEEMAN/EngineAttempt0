@@ -7,15 +7,18 @@ out vec2 TexCoords;
 out vec3 norm;
 out vec3 FragPos;
 
+uniform vec4 plane;
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
 
 void main()
 {
-	gl_Position = projection * view * model * vec4(positions, 1);
-	FragPos = vec3(model * vec4(positions, 1));
+	vec4 worldPosition = model * vec4(positions,1);
+	gl_ClipDistance[0] = dot(worldPosition, plane);
+
+	gl_Position = projection * view * worldPosition;
+	FragPos = vec3(worldPosition);
 	TexCoords = uvs;
-	norm = mat3(transpose(inverse(model))) * normals;
-	//norm = vec3(model * vec4(normals,1));
+	norm = normalize(mat3(transpose(inverse(model))) * normals);
 }

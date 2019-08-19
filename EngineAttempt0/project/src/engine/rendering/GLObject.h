@@ -1,5 +1,8 @@
 #pragma once
 
+/*
+* A basic class for assigning an opengl id to.
+*/
 class GLObject
 {
 	public:

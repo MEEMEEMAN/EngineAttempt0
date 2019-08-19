@@ -13,7 +13,7 @@ out vec4 FragColor;
 void main()
 {
 	vec4 color = texture(image, TexCoords);
-	float diffuse = max(dot(norm, lightDir), 0);
+	float diffuse = max(dot(norm, normalize(lightDir)), 0);
 	vec4 result = (ambient + diffuse) * color;
 
 	FragColor =  result;

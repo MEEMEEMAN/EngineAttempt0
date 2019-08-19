@@ -18,7 +18,7 @@ class MeshRenderer : public Component
 	* a RawModel gets loaded up from a specified filepath.
 	* The inputed material will be used for rendering the RawModel.
 	*/
-	MeshRenderer(std::string meshFilepath, Material material)
+	MeshRenderer(std::string meshFilepath, Material *material)
 	{	
 		rawmodel = loader.ImportSimpleModel(meshFilepath);
 		mat = material;
@@ -26,7 +26,7 @@ class MeshRenderer : public Component
 
 	void Update() override;
 
-	Material mat;
+	Material* mat = 0;
 	RawModel rawmodel;
 	private:
 	Loader loader;

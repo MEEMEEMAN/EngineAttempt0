@@ -17,7 +17,9 @@
 #include "rendering/MasterRenderer.h"
 #include "rendering/GLTexture.h"
 #include "rendering/Skybox.h"
+#include "rendering/FBO.h"
 
 #include "components/MeshRender.h"
+#include "components/GUIRenderer.h"
 
 #include "materials/TexturedMat.h"

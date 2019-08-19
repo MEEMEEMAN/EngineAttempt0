@@ -52,6 +52,12 @@ public:
 	void SetUniform1f(const std::string& name, float value);
 	void SetUniform2f(const std::string& name, vec2 value);
 
+	static void Unbind()
+	{
+		activeProgram = nullptr;
+		glUseProgram(0);
+	}
+
 private:
 	static ShaderProgram* activeProgram;
 	std::unordered_map<std::string, int> m_UniformCache;
