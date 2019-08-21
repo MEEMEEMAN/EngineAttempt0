@@ -14,17 +14,27 @@ int main()
 	GUI::Initialize(GLSL_VERSION);
 
 	Loader loader;
+	AudioMaster audio;
+	audio.Init(32);
+	Loader::SetAudioMaster(&audio);
 
 #pragma region Asset Loading & Scene Building
 	GameObject camera;
 	camera.AddComponent(new Camera(65, SCR_WIDTH, SCR_HEIGHT));
+	camera.AddComponent(new AudioListener());
+	AudioClip swamp = loader.LoadAudio("project/assets/sfx/swampaha.wav", false);
+	camera.AddComponent(new AudioSource(swamp));
+	camera.AddComponent(new SwampClicker());
+
+	AudioClip lis = loader.LoadAudio("project/assets/sfx/lis.wav", true);
+	audio.PlayOneShot(lis, 1,1);
 
 	Camera* camComponent = camera.GetComponent<Camera>();
 	MasterRenderer renderer(camComponent);
 	MeshRenderer::renderer = &renderer;
 
-	ShaderProgram* basicShader = new ShaderProgram("project/src/engine/shaders/basic.vert",
-		"project/src/engine/shaders/basic.frag");
+	ShaderProgram* basicShader = new ShaderProgram("project/assets/shaders/basic.vert",
+		"project/assets/shaders/basic.frag");
 
 	TexturedMaterial wackmat(basicShader);
 	wackmat.AddTexture(loader.loadTexture("project/assets/models/wackterrain/wackterrain.png", true));
@@ -45,8 +55,7 @@ int main()
 	SkyboxRenderer skybox("project/assets/textures/spaceCubemap");
 	skybox.cam = camComponent;
 
-
-	ShaderProgram* uiShader = new ShaderProgram("project/src/engine/shaders/gui.vert", "project/src/engine/shaders/gui.frag");
+	ShaderProgram* uiShader = new ShaderProgram("project/assets/shaders/gui.vert", "project/assets/shaders/gui.frag");
 	TexturedMaterial refractionMat(uiShader);
 
 	FBO refractionBuffer(fboResX, fboResY);
@@ -62,7 +71,7 @@ int main()
 	reflectionBuffer.GenDepthTextureAttachment();
 	reflectionMat.AddTexture(reflectionBuffer.GetColorTexture());
 	
-	
+	/*
 	GameObject refractionSprite;
 	refractionSprite.AddComponent(new GUIRenderer(refractionMat));
 	refractionSprite.transform.scale = vec3(0.25, 0.25, 0);
@@ -72,10 +81,12 @@ int main()
 	reflectionSprite.AddComponent(new GUIRenderer(reflectionMat));
 	reflectionSprite.transform.scale = vec3(0.25, 0.25, 0);
 	reflectionSprite.transform.position = vec3(0.75, 0.75, 0);
+	*/
 
-	ShaderProgram* waterShader = new ShaderProgram("project/src/engine/shaders/water.vert", 
-												"project/src/engine/shaders/water.frag");
+	ShaderProgram* waterShader = new ShaderProgram("project/assets/shaders/water.vert", 
+												"project/assets/shaders/water.frag");
 	TexturedMaterial waterMat(waterShader);
+	waterMat.cullBackFace = false;
 	waterMat.AddTexture(reflectionBuffer.GetColorTexture(), "reflectTexture");
 	waterMat.AddTexture(refractionBuffer.GetColorTexture(), "refractTexture");
 	waterMat.AddTexture(loader.loadTexture("project/assets/textures/dudv.jpg", true), "dudvMap");
@@ -86,17 +97,20 @@ int main()
 	waterPlane.transform.position = vec3(0, -0.4, 0);
 	
 #pragma endregion
-	
+
+
 	glfwSwapInterval(1);
 	glClearColor(0.3f, 0.3f, 1, 1);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CLIP_DISTANCE0);
+	glEnable(GL_CULL_FACE);
 
 	bool toggle = false;
 	bool toggleWireFrame = false;
 	bool vsyncBtn = true;
 	while (!Context::WindowShouldClose())
 	{
+
 		Time::Update();
 		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		GUI::BeginFrame();
@@ -168,14 +182,19 @@ int main()
 		waterShader->RunProgram();
 		waterShader->SetUniform1f("time", (float)Time::GetStartTimer());
 		skybox.Rotate();
-		refractionSprite.Update();
-		reflectionSprite.Update();
+	//	refractionSprite.Update();
+		//reflectionSprite.Update();
 
 		#pragma region ImGui
 
 		{
 			std::stringstream ss;
 			ImGui::Begin("Debug Info");
+
+			vec2 res = Input::GetScreenDimensions();
+			ss << "Current Resolution: " << res.x << "x" << res.y;
+			ImGui::Text(ss.str().c_str());
+			ss.str("");
 			std::string avgFPS = "Avg FPS: " + std::to_string(1/Time::GetAvgDelta());
 			ImGui::Text(avgFPS.c_str());
 			std::string avgDelta = "Avg Delta: " + std::to_string(Time::GetAvgDelta());
@@ -214,7 +233,7 @@ int main()
 		GUI::EndFrame();
 		Context::SwapBuffers();
 		Input::Update();
-
+		audio.Update();
 	}
 
 	Context::Terminate();

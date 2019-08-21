@@ -46,9 +46,11 @@ void Camera::CalcMatrix()
 
 	mat4 inverse = glm::inverse(mViewMatrix);
 	vec3 front = glm::normalize(glm::vec3(inverse[2]));
+	forwardVec = front;
 
 	vec3 right = glm::normalize(glm::cross(front, vec3(0, 1, 0)));
 	vec3 top = glm::normalize(glm::cross(front, right));
+	upVec = top;
 
 	bool invert = false;
 	if (owner->transform.rotaiton.x >= 90.0f || owner->transform.rotaiton.x <= -90.0f)

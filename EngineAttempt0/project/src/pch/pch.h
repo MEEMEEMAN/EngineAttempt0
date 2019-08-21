@@ -8,6 +8,7 @@
 #include <vector>
 #include <chrono>
 #include <ostream>
+#include <stack>
 
 #include "assimp/Importer.hpp"
 #include "assimp/postprocess.h"
@@ -41,5 +42,10 @@ std::ostream& operator <<(std::ostream& os, const mat4& matrix);
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_glfw.h>
 #include <imgui/imgui_impl_opengl3.h>
+
+#include "fmod.hpp"
+#include "fmod_errors.h"
+
+typedef FMOD_VECTOR fmodvec;
 
 #define conlog(x) std::cout << x << "\n"

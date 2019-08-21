@@ -1,6 +1,8 @@
 #include "Loader.h"
 #include "ModelImporter.h"
 
+AudioMaster* Loader::audioMaster = nullptr;
+
 RawModel Loader::Load(unsigned int index, unsigned int dimensions, std::vector<float>* positions)
 {
 	unsigned int vao = GenVAO();
@@ -35,6 +37,68 @@ RawModel Loader::Load(std::vector<vec3>* positions, std::vector<vec2>* uvs)
 	size_t size = positions->size();
 	RawModel model(vao, 0, size);
 	return model;
+}
+
+GLCube Loader::LoadCubemap(std::string directory)
+{
+	unsigned int textureID;
+	glGenTextures(1, &textureID);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
+
+	for (size_t i = 0; i < 6; i++)
+	{
+		std::stringstream path;
+		path << directory << "/" << faces[i];
+		Image face(path.str(), true);
+
+		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
+			0, GL_RGBA, face.GetImageWidth(),
+			face.GetImageHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, face.GetImageData());
+	}
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+	glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
+
+	return GLCube(textureID);
+}
+
+GLTexture Loader::loadTexture(std::string filepath, bool flipVertically)
+{
+	unsigned int id;
+	Image image(filepath, flipVertically);
+
+	GLuint format = GL_RGB;
+	switch (image.PixelChannels())
+	{
+	case 3:
+		format = GL_RGB;
+		break;
+	case 4:
+		format = GL_RGBA;
+		break;
+	default:
+		conlog("UnSupported image format? " << image.PixelChannels() << " channels found.");
+		return	GLTexture(0);
+	}
+
+	glGenTextures(1, &id);
+	glBindTexture(GL_TEXTURE_2D, id);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, -0.4f);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, format, image.GetImageWidth(), image.GetImageHeight(), 0,
+		format, GL_UNSIGNED_BYTE, image.GetImageData());
+
+	glGenerateMipmap(GL_TEXTURE_2D);
+
+	return GLTexture(id);
 }
 
 RawModel Loader::Load(std::vector<vec3>* positions, std::vector<vec2>* uvs, std::vector<unsigned int>* indices)

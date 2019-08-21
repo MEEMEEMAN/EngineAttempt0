@@ -9,6 +9,7 @@
 #include "general/Transform.h"
 #include "general/Application.h"
 #include "general/Scene.h"
+#include "general/AudioMaster.h"
 
 #include "rendering/Shader.h"
 #include "rendering/RawModel.h"
@@ -21,5 +22,8 @@
 
 #include "components/MeshRender.h"
 #include "components/GUIRenderer.h"
+#include "components/AudioListener.h"
+#include "components/AudioSource.h"
+#include "components/SwampClicker.h"
 
 #include "materials/TexturedMat.h"

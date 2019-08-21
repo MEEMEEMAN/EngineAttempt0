@@ -33,14 +33,14 @@ class MasterRenderer
 		for (; it != renderQueue.end() ;it++)
 		{
 			it->first->Bind();
-			it->first->ApplyShaderParameters();
+			it->first->ApplyMaterial();
 			//ShaderProgram* shader = it->first->GetShader();
 
 			for (size_t i = 0; i < it->second.size(); i++)
 			{
 				GameObject *gamobject = it->second[i]->owner;
 				it->first->
-				SubmitMVP(gamobject->transform.modelMatrix, 
+				SubmitMVP(gamobject->transform.GetModel(), 
 					cam->GetViewMatrix(), cam->GetProjectionMatrix());
 
 				threeDRenderer.Draw(&it->second[i]->rawmodel);

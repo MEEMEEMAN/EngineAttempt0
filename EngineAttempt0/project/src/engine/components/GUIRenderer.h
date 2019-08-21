@@ -24,9 +24,9 @@ class GUIRenderer : public Component
 	{
 		uiModel.Bind();
 		texturedMat.Bind();
-		texturedMat.ApplyShaderParameters();
+		texturedMat.ApplyMaterial();
 
-		texturedMat.GetShader()->SetMat4f("model", owner->transform.modelMatrix);
+		texturedMat.GetShader()->SetMat4f("model", owner->transform.GetModel());
 
 		glDrawElements(GL_TRIANGLES, uiModel.GetDrawCount(), GL_UNSIGNED_INT, 0);
 	}

@@ -30,10 +30,21 @@ class Camera : public Component
 		return mProjectionMatrix;
 	}
 
+	inline vec3 GetForwad()
+	{
+		return forwardVec;
+	}
+
+	inline vec3 GetUp()
+	{
+		return upVec;
+	}
+
 	void CollectInput();
 	void CalcMatrix();
 
 	private:
 	float sprintTimer = 1;
 	mat4 mViewMatrix = mat4(1), mProjectionMatrix = mat4(1);
+	vec3 forwardVec, upVec;
 };

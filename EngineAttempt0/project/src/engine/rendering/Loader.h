@@ -4,10 +4,35 @@
 #include "ModelImporter.h"
 #include "GLCube.h"
 #include "Image.h"
+#include "..//general/AudioMaster.h"
 
 class Loader
 {
 	public:
+	static void SetAudioMaster(AudioMaster* master)
+	{
+		audioMaster = master;
+	}
+
+	AudioClip LoadAudio(std::string filepath, bool stream)
+	{
+		FMOD::Sound* pSound = nullptr;
+
+		if (stream)
+		{
+			audioMaster->GetSystem()->createStream(filepath.c_str(), FMOD_3D, nullptr, &pSound);
+		}
+		else
+		{
+			audioMaster->GetSystem()->createSound(filepath.c_str(), FMOD_3D, nullptr, &pSound);
+		}
+
+		unsigned int soundID = audioMaster->RegisterAudio(pSound);
+		AudioClip file(soundID, filepath);
+
+		return file;
+	}
+
 	//Load a rawmodel with only position data.
 	RawModel Load(unsigned int index ,unsigned int dimensions,std::vector<float>* positions);
 
@@ -21,72 +46,14 @@ class Loader
 
 	RawModel Load(std::vector<vec3>* positions, std::vector<vec2>* uvs, std::vector<unsigned int>* indices);
 
-	GLTexture loadTexture(std::string filepath, bool flipVertically)
-	{
-		unsigned int id;
-		Image image(filepath, flipVertically);
-
-		GLuint format = GL_RGB;
-		switch (image.PixelChannels())
-		{
-		case 3:
-			format = GL_RGB;
-			break;
-		case 4:
-			format = GL_RGBA;
-			break;
-		default:
-			conlog("UnSupported image format? " << image.PixelChannels() << " channels found.");
-			return	GLTexture(0);
-		}
-
-		glGenTextures(1, &id);
-		glBindTexture(GL_TEXTURE_2D, id);
-
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, -0.4f);
-
-		glTexImage2D(GL_TEXTURE_2D, 0, format, image.GetImageWidth(), image.GetImageHeight(), 0,
-			format, GL_UNSIGNED_BYTE, image.GetImageData());
-
-		glGenerateMipmap(GL_TEXTURE_2D);
-
-		return GLTexture(id);
-	}
+	GLTexture loadTexture(std::string filepath, bool flipVertically);
 
 	/*
 	* You must provide the directory which all of your images reside.
 	* this function is going to search for the following image names in the following order:
 	right.png, left.png, top.png, bottom.png, front.png, back.png
 	*/
-	GLCube LoadCubemap(std::string directory)
-	{
-		unsigned int textureID;
-		glGenTextures(1, &textureID);
-		glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
-
-		for (size_t i = 0; i < 6; i++)
-		{
-			std::stringstream path;
-			path << directory << "/" << faces[i];
-			Image face(path.str(), true);
-
-			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
-				0, GL_RGBA, face.GetImageWidth(), 
-				face.GetImageHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, face.GetImageData());
-		}
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-		glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
-
-		return GLCube(textureID);
-	}
+	GLCube LoadCubemap(std::string directory);
 
 	//Load a rawmodel with position and draw index data.
 
@@ -103,6 +70,7 @@ class Loader
 	RawModel ImportSimpleModel(std::string filepath);
 
 	private:
+	static AudioMaster* audioMaster;
 	ModelImporter importer;
 
 	//Generate a vertex array and return the id.

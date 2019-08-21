@@ -5,6 +5,7 @@
 class Material
 {
 	public:
+	bool cullBackFace = true;
 	Material(ShaderProgram* shader)
 	{
 		mShader = shader;
@@ -25,9 +26,18 @@ class Material
 		mShader = otherShader;
 	}
 
-	virtual void ApplyShaderParameters()
+	void ApplyMaterial()
 	{
-		
+		if (cullBackFace)
+		{
+			glEnable(GL_CULL_FACE);
+		}
+		else
+		{
+			glDisable(GL_CULL_FACE);
+		}
+
+		Apply();
 	}
 
 	void SubmitMVP(mat4 model, mat4 view, mat4 projection)
@@ -43,5 +53,11 @@ class Material
 	}
 
 	protected:
+
+	virtual void Apply()
+	{
+		
+	}
+
 	ShaderProgram* mShader = 0;
 };

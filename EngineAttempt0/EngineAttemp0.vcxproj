@@ -57,14 +57,14 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)project/dependencies;$(SolutionDir)project/dependencies/glad/include;$(SolutionDir)project/dependencies/glfw/include;$(SolutionDir)project/src/pch;$(SolutionDir)project/dependencies/assimp/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)project/dependencies;$(SolutionDir)project/dependencies/glad/include;$(SolutionDir)project/dependencies/glfw/include;$(SolutionDir)project/src/pch;$(SolutionDir)project/dependencies/assimp/include;$(SolutionDir)project/dependencies/fmod/inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>IMGUI_IMPL_OPENGL_LOADER_GLAD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>4244</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)project/dependencies/assimp/libs/debug;$(SolutionDir)project/dependencies/glfw;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;assimp-vc140-mt.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)project/dependencies/assimp/libs/debug;$(SolutionDir)project/dependencies/glfw;$(SolutionDir)project/dependencies/fmod/libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>/NODEFAULTLIB:MSVCRT %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
@@ -76,7 +76,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)project/dependencies;$(SolutionDir)project/dependencies/glad/include;$(SolutionDir)project/dependencies/glfw/include;$(SolutionDir)project/src/pch;$(SolutionDir)project/dependencies/assimp/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)project/dependencies;$(SolutionDir)project/dependencies/glad/include;$(SolutionDir)project/dependencies/glfw/include;$(SolutionDir)project/src/pch;$(SolutionDir)project/dependencies/assimp/include;$(SolutionDir)project/dependencies/fmod/inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>IMGUI_IMPL_OPENGL_LOADER_GLAD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>4244</DisableSpecificWarnings>
     </ClCompile>
@@ -84,8 +84,8 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)project/dependencies/assimp/libs/debug;$(SolutionDir)project/dependencies/glfw;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)project/dependencies/assimp/libs/debug;$(SolutionDir)project/dependencies/glfw;$(SolutionDir)project/dependencies/fmod/libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;assimp-vc140-mt.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -100,6 +100,7 @@
     <ClCompile Include="project\dependencies\stb\stb_image.cpp" />
     <ClCompile Include="project\src\engine\components\MeshRender.cpp" />
     <ClCompile Include="project\src\engine\components\MeshRenderer.cpp" />
+    <ClCompile Include="project\src\engine\general\AudioMaster.cpp" />
     <ClCompile Include="project\src\engine\general\Camera.cpp" />
     <ClCompile Include="project\src\engine\general\Component.cpp" />
     <ClCompile Include="project\src\engine\general\Context.cpp" />
@@ -197,6 +198,14 @@
     <ClInclude Include="project\dependencies\assimp\include\assimp\version.h" />
     <ClInclude Include="project\dependencies\assimp\include\assimp\Vertex.h" />
     <ClInclude Include="project\dependencies\assimp\include\assimp\XMLTools.h" />
+    <ClInclude Include="project\dependencies\fmod\inc\fmod.h" />
+    <ClInclude Include="project\dependencies\fmod\inc\fmod.hpp" />
+    <ClInclude Include="project\dependencies\fmod\inc\fmod_codec.h" />
+    <ClInclude Include="project\dependencies\fmod\inc\fmod_common.h" />
+    <ClInclude Include="project\dependencies\fmod\inc\fmod_dsp.h" />
+    <ClInclude Include="project\dependencies\fmod\inc\fmod_dsp_effects.h" />
+    <ClInclude Include="project\dependencies\fmod\inc\fmod_errors.h" />
+    <ClInclude Include="project\dependencies\fmod\inc\fmod_output.h" />
     <ClInclude Include="project\dependencies\glad\include\glad\glad.h" />
     <ClInclude Include="project\dependencies\glad\include\KHR\khrplatform.h" />
     <ClInclude Include="project\dependencies\glfw\include\GLFW\glfw3.h" />
@@ -450,11 +459,21 @@
     <ClInclude Include="project\dependencies\imgui\imstb_rectpack.h" />
     <ClInclude Include="project\dependencies\imgui\imstb_textedit.h" />
     <ClInclude Include="project\dependencies\imgui\imstb_truetype.h" />
+    <ClInclude Include="project\dependencies\openAL\include\al.h" />
+    <ClInclude Include="project\dependencies\openAL\include\alc.h" />
+    <ClInclude Include="project\dependencies\openAL\include\efx-creative.h" />
+    <ClInclude Include="project\dependencies\openAL\include\EFX-Util.h" />
+    <ClInclude Include="project\dependencies\openAL\include\efx.h" />
+    <ClInclude Include="project\dependencies\openAL\include\xram.h" />
     <ClInclude Include="project\dependencies\stb\stb_image.h" />
+    <ClInclude Include="project\src\engine\components\AudioListener.h" />
+    <ClInclude Include="project\src\engine\components\AudioSource.h" />
     <ClInclude Include="project\src\engine\components\ComplexMeshRenderer.h" />
     <ClInclude Include="project\src\engine\components\GUIRenderer.h" />
     <ClInclude Include="project\src\engine\components\MeshRender.h" />
     <ClInclude Include="project\src\engine\components\MeshRenderer.h" />
+    <ClInclude Include="project\src\engine\components\SwampClicker.h" />
+    <ClInclude Include="project\src\engine\general\AudioMaster.h" />
     <ClInclude Include="project\src\engine\materials\TexturedMat.h" />
     <ClInclude Include="project\src\engine\rendering\ComplexModel.h" />
     <ClInclude Include="project\src\engine\rendering\FBO.h" />

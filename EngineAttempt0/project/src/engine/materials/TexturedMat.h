@@ -40,7 +40,7 @@ class TexturedMaterial : public Material
 		mShader->SetUniform1i(uniformName, value);
 	}
 
-	void ApplyShaderParameters() override
+	void Apply() override
 	{
 		GLTexture::Unbind();
 		for (size_t i = 0; i < textures.size(); i++)
