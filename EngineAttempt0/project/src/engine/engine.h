@@ -10,6 +10,7 @@
 #include "general/Application.h"
 #include "general/Scene.h"
 #include "general/AudioMaster.h"
+#include "general/SceneManager.h"
 
 #include "rendering/Shader.h"
 #include "rendering/RawModel.h"

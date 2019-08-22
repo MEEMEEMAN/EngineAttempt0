@@ -12,13 +12,55 @@ class Scene
 		
 	}
 
+	Scene()
+	{
+
+	}
+
 	void UpdateRootGameObjects()
 	{
-		for (size_t i = 0; i < gameObjects.size(); i++)
+		for (size_t i = 0; i < gameObjectRoots.size(); i++)
 		{
-			gameObjects[i].Update();
+			gameObjectRoots[i]->Update();
 		}
 	}
 
-	std::vector<GameObject> gameObjects;
+	void StartRootGameObjects()
+	{
+		for (size_t i = 0; i < gameObjectRoots.size(); i++)
+		{
+			gameObjectRoots[i]->StartComponents();
+		}
+	}
+
+	void PreRenderUpdateRoots()
+	{
+		for (size_t i = 0; i < gameObjectRoots.size(); i++)
+		{
+			gameObjectRoots[i]->PreRender();
+		}
+	}
+
+	void PostRenderUpdateRoots()
+	{
+		for (size_t i = 0; i < gameObjectRoots.size(); i++)
+		{
+			gameObjectRoots[i]->PostRender();
+		}
+	}
+	
+	Camera* GetMainCamera() const
+	{
+		return sceneCamera;
+	}
+
+	protected:
+	Camera* sceneCamera = nullptr;
+
+	virtual void ConstructScene()
+	{
+		
+	}
+
+	std::vector<GameObject*> gameObjectRoots;
 };

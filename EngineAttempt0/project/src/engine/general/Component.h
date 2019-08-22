@@ -2,6 +2,7 @@
 #include "pch.h"
 #include "Transform.h"
 
+
 class GameObject;
 
 class Component
@@ -12,11 +13,30 @@ GameObject* owner;
 	
 	void UpdateComponent();
 
+	void UpdatePostRender();
+
+	void PreRenderUpdate();
+
 	void StartComponent();
 
 	void Destroy();
 
+	/*
+	* Provides a way of dynamically instantiating classes.
+	*/
+	virtual auto clone() const -> Component*
+	{
+		return new Component(*this);
+	}
+
+
+	virtual std::string GetID() const
+	{
+		return "null";
+	}
+
 	protected:
+
 	/*
 	* The Update function gets invoked every frame.
 	*/
@@ -26,9 +46,22 @@ GameObject* owner;
 	}
 
 	/*
-	* The Start function gets invoked on Component instantiation.
-	* Start gets called after the constructor, only once the Component is added to the GameObject
-	successfully.
+	* Gets called after rendering is finished.
+	* Gets called every frame.
+	*/
+	virtual void PostRender()
+	{
+
+	}
+
+	virtual void PreRender()
+	{
+
+	}
+
+	/*
+	* Gets called before the begginning of the first frame.
+	* Gets called only once.
 	*/
 	virtual void Start()
 	{

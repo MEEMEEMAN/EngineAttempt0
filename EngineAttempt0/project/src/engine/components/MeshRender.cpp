@@ -5,5 +5,5 @@ MasterRenderer* MeshRenderer::renderer = nullptr;
 
 void MeshRenderer::Update()
 {
-	renderer->SubmitRender(this, mat);
+	MasterRenderer::Instance()->SubmitRender(this, mat);
 }

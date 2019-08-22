@@ -18,7 +18,7 @@ class SkyboxRenderer
 
 		ShaderProgram* skyboxProgram = new ShaderProgram("project/assets/shaders/skybox.vert", 
 									"project/assets/shaders/skybox.frag");
-		skyboxMat = Material(skyboxProgram);
+		skyboxMat = Material(skyboxProgram, "skyboxMat");
 		skyboxMat.cullBackFace = false;
 		cubemapTexture = loader.LoadCubemap(cubefolderpath);
 	}

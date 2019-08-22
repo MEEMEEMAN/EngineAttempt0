@@ -6,9 +6,10 @@ class Material
 {
 	public:
 	bool cullBackFace = true;
-	Material(ShaderProgram* shader)
+	Material(ShaderProgram* shader,	std::string id)
 	{
 		mShader = shader;
+		RegisterMaterial(id);
 	}
 
 	Material()
@@ -52,6 +53,18 @@ class Material
 		mShader->RunProgram();
 	}
 
+	static Material* GetMaterial(std::string matID)
+	{
+		std::unordered_map<std::string, Material*>::iterator it = matPool.find(matID);
+
+		if (it != matPool.end())
+		{
+			return it->second;
+		}
+		
+		return nullptr;
+	}
+
 	protected:
 
 	virtual void Apply()
@@ -60,4 +73,13 @@ class Material
 	}
 
 	ShaderProgram* mShader = 0;
+
+	private:
+
+	void RegisterMaterial(std::string matID)
+	{
+		matPool.insert(std::make_pair(matID, this));
+	}
+
+	static std::unordered_map<std::string, Material*> matPool;
 };

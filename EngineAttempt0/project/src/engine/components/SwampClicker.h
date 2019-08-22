@@ -22,6 +22,12 @@ class SwampClicker : public Component
 		}
 	}
 
+	auto clone() const -> SwampClicker* override
+	{
+		return new SwampClicker(*this);
+	}
+
+
 	private:
 	AudioSource* src = 0;
 };

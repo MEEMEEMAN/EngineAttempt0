@@ -163,6 +163,7 @@ int ShaderProgram::GetUniformLocation(const std::string& name)
 
 void ShaderProgram::SetUniform3f(const std::string& name, glm::vec3 vec3)
 {
+	RunProgram();
 	glUniform3f(GetUniformLocation(name), vec3.x, vec3.y, vec3.z);
 }
 
@@ -174,25 +175,30 @@ void ShaderProgram::SetMat4f(const std::string& name, const glm::mat4 Matrix4x4)
 
 void ShaderProgram::SetMat3f(const std::string& name, const glm::mat3 Matrix3x3)
 {
+	RunProgram();
 	glUniformMatrix3fv(GetUniformLocation(name), 1, GL_FALSE, &Matrix3x3[0][0]);
 }
 
 void ShaderProgram::SetUniform4f(const std::string& name, glm::vec4 vec4)
 {
+	RunProgram();
 	glUniform4f(GetUniformLocation(name), vec4.x, vec4.y, vec4.z, vec4.w);
 }
 
 void ShaderProgram::SetUniform1i(const std::string& name, int value)
 {
+	RunProgram();
 	glUniform1i(GetUniformLocation(name), value);
 }
 
 void ShaderProgram::SetUniform1f(const std::string& name, float value)
 {
+	RunProgram();
 	glUniform1f(GetUniformLocation(name), value);
 }
 
 void ShaderProgram::SetUniform2f(const std::string& name, vec2 value)
 {
+	RunProgram();
 	glUniform2f(GetUniformLocation(name), value.x, value.y);
 }

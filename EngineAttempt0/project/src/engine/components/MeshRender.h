@@ -24,6 +24,16 @@ class MeshRenderer : public Component
 		mat = material;
 	}
 
+	auto clone() const -> MeshRenderer* override
+	{
+		return new MeshRenderer(*this);
+	}
+
+	virtual std::string GetID() const
+	{
+		return "MeshRenderer";
+	}
+
 	void Update() override;
 
 	Material* mat = 0;

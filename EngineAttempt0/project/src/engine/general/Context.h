@@ -1,6 +1,9 @@
 #pragma once
 #include "pch.h"
 
+/*
+* The context static class.
+*/
 class Context
 {
 	public:

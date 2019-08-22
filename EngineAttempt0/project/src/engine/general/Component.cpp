@@ -6,6 +6,16 @@ void Component::UpdateComponent()
 	Update();
 }
 
+void Component::PreRenderUpdate()
+{
+	PreRender();
+}
+
+void Component::UpdatePostRender()
+{
+	PostRender();
+}
+
 void Component::StartComponent()
 {
 	Start();

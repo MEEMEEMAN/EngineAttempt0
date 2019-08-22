@@ -9,14 +9,11 @@
 class Loader
 {
 	public:
-	static void SetAudioMaster(AudioMaster* master)
-	{
-		audioMaster = master;
-	}
 
 	AudioClip LoadAudio(std::string filepath, bool stream)
 	{
 		FMOD::Sound* pSound = nullptr;
+		AudioMaster* audioMaster = AudioMaster::Instance();
 
 		if (stream)
 		{

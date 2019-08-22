@@ -6,6 +6,11 @@ double Input::MouseX = 0.0f, Input::MouseY = 0.0f;
 glm::vec2 Input::m_MouseDelta;
 float Input::scrollDelta;
 bool Input::mFocused = false;
+bool Input::mCursorInWindow = false;
+bool Input::mSwitchedLock = false;
+
+bool Input::mCursorShouldBeLocked = false;
+bool Input::mouseIsLocked = false;
 
 bool Input::GetKeyDown(int glkeycode)
 {
@@ -40,15 +45,29 @@ glm::vec2 Input::GetMouseDelta()
 
 void Input::LockCursor(bool state)
 {
+	vec2 dimensions = Context::GetCurrentDimensions();
 	if (state)
 	{
-		vec2 dimensions = Context::GetCurrentDimensions();
+		if(!mouseIsLocked)
+			return;
+
+		mSwitchedLock = true;
 		glfwSetCursorPos(Context::GetMainWindow(), dimensions.x / 2, dimensions.y / 2);
 		glfwSetInputMode(Context::GetMainWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		mouseIsLocked = false;
+	}
+	else if(!state)
+	{
+		if(mouseIsLocked)
+			return;
+
+		mSwitchedLock = true;
+		glfwSetInputMode(Context::GetMainWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		mouseIsLocked = true;
 	}
 	else
 	{
-		glfwSetInputMode(Context::GetMainWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+
 	}
 }
 
@@ -56,6 +75,23 @@ void Input::Update()
 {
 	scrollDelta = 0;
 	glfwPollEvents();
+
+	mFocused = glfwGetWindowAttrib(Context::GetMainWindow(), GLFW_FOCUSED);
+	mCursorInWindow = glfwGetWindowAttrib(Context::GetMainWindow(), GLFW_HOVERED);
+
+	if (!IsFocused())
+	{
+		LockCursor(false);
+	}
+	else if(mCursorShouldBeLocked && mCursorInWindow)
+	{
+		LockCursor(true);
+	}
+	else
+	{
+		LockCursor(false);
+	}
+
 
 	if (m_heldKeyCache.size() > 0)
 	{
@@ -91,8 +127,18 @@ void Input::Update()
 	float ydelta = ypos - MouseY;
 #pragma warning(pop)
 
-	m_MouseDelta.x = xdelta;
-	m_MouseDelta.y = ydelta;
+	if (mCursorInWindow && !mSwitchedLock && mFocused)
+	{
+		m_MouseDelta.x = xdelta;
+		m_MouseDelta.y = ydelta;
+	}
+	else
+	{
+		m_MouseDelta.x = 0;
+		m_MouseDelta.y = 0;
+		mSwitchedLock = false;
+	}
+
 	MouseX = xpos;
 	MouseY = ypos;
 }

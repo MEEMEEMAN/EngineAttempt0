@@ -58,6 +58,7 @@ public:
 		glUseProgram(0);
 	}
 
+
 private:
 	static ShaderProgram* activeProgram;
 	std::unordered_map<std::string, int> m_UniformCache;

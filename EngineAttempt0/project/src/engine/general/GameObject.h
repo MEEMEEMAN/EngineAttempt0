@@ -34,8 +34,21 @@ public:
 	* This call first updates the Transform component, which applies the model matrix,
 	after the Transform is updated, all corresponding components of this GameObject get updated
 	aswell. the component update order is dependant on the order which they were added in.
+	* Called pre render.
 	*/
 	void Update();
+
+	/*
+	* Called after the scene was rendererd.
+	*/
+	void PostRender();
+
+	void PreRender();
+
+	/*
+	* Runs start method. 
+	*/
+	void StartComponents();
 
 	void UpdateTransform();
 

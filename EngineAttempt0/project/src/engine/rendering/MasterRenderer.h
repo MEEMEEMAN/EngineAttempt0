@@ -11,13 +11,29 @@ class MasterRenderer
 {
 	public:
 
-	MasterRenderer(Camera* renderCamera)
+	static void Cleanup()
 	{
-		cam = renderCamera;
+		delete(instance);
 	}
 
 	MasterRenderer()
 	{
+	
+	}
+
+	void SetInstance(MasterRenderer* renderer)
+	{
+		instance = renderer;
+	}
+
+	void QuickRender(MeshRenderer* model, Material* mat, Camera* renderCam)
+	{
+		mat->Bind();
+		mat->ApplyMaterial();
+
+		GameObject* owner = model->owner;
+		mat->SubmitMVP(owner->transform.GetModel(), renderCam->GetViewMatrix(), renderCam->GetProjectionMatrix());
+
 
 	}
 
@@ -26,7 +42,12 @@ class MasterRenderer
 		AddToQueue(model, mat);
 	}
 
-	void InitiateRender()
+	static void BeginRender(Camera* renderCam)
+	{
+		instance->InitiateRender(renderCam);
+	}
+
+	void InitiateRender(Camera* renderCam)
 	{
 		std::map<Material*, std::vector<MeshRenderer*>>::iterator it;
 		it = renderQueue.begin();
@@ -41,21 +62,30 @@ class MasterRenderer
 				GameObject *gamobject = it->second[i]->owner;
 				it->first->
 				SubmitMVP(gamobject->transform.GetModel(), 
-					cam->GetViewMatrix(), cam->GetProjectionMatrix());
+					renderCam->GetViewMatrix(), renderCam->GetProjectionMatrix());
 
 				threeDRenderer.Draw(&it->second[i]->rawmodel);
 			}
 		}
-
+	}
+	
+	void Clear()
+	{
 		renderQueue.clear();
 	}
 
-	void SetCam(Camera* camera)
+	static void ClearQueue()
 	{
-		cam = camera;
+		instance->Clear();
+	}
+
+	static MasterRenderer* Instance()
+	{
+		return instance;
 	}
 
 	private:
+	static MasterRenderer* instance;
 
 	void AddToQueue(MeshRenderer* rawmodel, Material* material)
 	{
@@ -74,7 +104,6 @@ class MasterRenderer
 		}
 	}
 
-	Camera* cam = 0;
 	ThreeDRenderer threeDRenderer;
 	std::map<Material*, std::vector<MeshRenderer*>> renderQueue;
 };

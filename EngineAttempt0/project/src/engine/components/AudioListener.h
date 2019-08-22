@@ -29,6 +29,17 @@ class AudioListener : public Component
 		set3DListenerAttributes(0, &pos, &vel, &forward, &up);
 	}
 
+	auto clone() const -> Component* override
+	{
+		return new AudioListener(*this);
+	}
+
+	protected:
+	std::string GetID() const override
+	{
+		return "AudioListener";
+	}
+
 	private:
 	vec3 prevPos = vec3(0);
 };

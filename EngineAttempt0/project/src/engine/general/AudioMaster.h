@@ -77,6 +77,11 @@ class AudioMaster
 		pSystem->update();
 	}
 
+	static void UpdateInstance()
+	{
+		instance->Update();
+	}
+
 	/*
 	* Returns FMOD's system component.
 	*/

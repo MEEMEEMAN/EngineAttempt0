@@ -10,15 +10,14 @@ class Input
 	static glm::vec2 m_MouseDelta;
 	static float scrollDelta;
 	static bool mFocused;
+	static bool mCursorInWindow;
+	static bool mSwitchedLock;
+	static bool mCursorShouldBeLocked;
+	static bool mouseIsLocked;
 	
 	static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 	{
 		scrollDelta = yoffset;
-	}
-	
-	static void focus_callback(GLFWwindow* window, int focused)
-	{
-		mFocused = focused;
 	}
 
 public:
@@ -62,6 +61,11 @@ public:
 	  indices are not limited to these values.
 	*/
 	static bool GetMouse(int mouseKey);
+
+	static void CursorLock(bool value)
+	{
+		mCursorShouldBeLocked = value;
+	}
 	
 	/*
 	* Returns a mouse position that can exceed the window's borders, good for camera movement
@@ -84,22 +88,20 @@ public:
 	static glm::vec2 GetWASDVector();
 
 	/*
-	* Locking the cursor means to clamp the cursor to the middle of the screen and
-	hide it.
-	*/
-	static void LockCursor(bool state);
-
-	/*
 	* Gets the mouse position in relation to the actual window's borders.
 	* If the mouse gets out of the window, the reported position will only go as low as 0
 	and as high as the current window's viewport dimension allows it to.
 	*/
 	static vec2 GetClampedMousePos();
 
+	static inline bool IsFocused()
+	{
+		return mFocused;
+	}
+
 	static void Initialize()
 	{
 		glfwSetScrollCallback(Context::GetMainWindow(), scroll_callback);
-		glfwSetWindowFocusCallback(Context::GetMainWindow(), focus_callback);
 	}
 
 	inline static float GetScrollDelta()
@@ -111,4 +113,11 @@ public:
 	{
 		return Context::GetCurrentDimensions();
 	}
+
+	private:
+		/*
+		* Locking the cursor means to clamp the cursor to the middle of the screen and
+		hide it.
+		*/
+		static void LockCursor(bool state);
 };

@@ -31,6 +31,11 @@ class GUIRenderer : public Component
 		glDrawElements(GL_TRIANGLES, uiModel.GetDrawCount(), GL_UNSIGNED_INT, 0);
 	}
 
+	auto clone() const -> GUIRenderer* override
+	{
+		return new GUIRenderer(*this);
+	}
+
 	private:
 	mat4 mProjection;
 	RawModel uiModel;

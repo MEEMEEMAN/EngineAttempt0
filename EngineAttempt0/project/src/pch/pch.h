@@ -9,6 +9,10 @@
 #include <chrono>
 #include <ostream>
 #include <stack>
+#include <thread>
+#include <mutex>
+#include <atomic>
+
 
 #include "assimp/Importer.hpp"
 #include "assimp/postprocess.h"
@@ -48,4 +52,9 @@ std::ostream& operator <<(std::ostream& os, const mat4& matrix);
 
 typedef FMOD_VECTOR fmodvec;
 
+#include "json.h"
+#include "reader.h"
+#include "writer.h"
+
 #define conlog(x) std::cout << x << "\n"
+#define quote(x) #x
