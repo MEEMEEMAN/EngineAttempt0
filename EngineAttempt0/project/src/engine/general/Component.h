@@ -67,4 +67,14 @@ GameObject* owner;
 	{
 
 	}
+
+	/*
+	* Function is called whenever its time to destroy the gameobject. as a consequence,
+	all of it's components get destroyed. components might have allocated memory so here they can free
+	that memory.
+	*/
+	virtual void OnDestroy()
+	{
+
+	}
 };

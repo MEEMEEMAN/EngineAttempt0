@@ -1,14 +1,14 @@
 #pragma once
 #include "engine.h"
 
-class WaterPlane : public MeshRenderer
+class WaterPlane : public Renderable
 {
 	const float resX  = 512, resY = 512;
 	public:
 
 	void Start() override
 	{
-		rawmodel = loader.ImportSimpleModel("game/assets/models/plane.glb");
+		SetModel(loader.ImportSimpleModel("game/assets/models/plane.glb"));
 		basicMaterial = dynamic_cast<TexturedMaterial*>(Material::GetMaterial("basicMat"));
 
 		ShaderProgram* waterShader = new ShaderProgram("game/assets/shaders/water.vert", 
@@ -57,7 +57,8 @@ class WaterPlane : public MeshRenderer
 			
 			reflectionBuffer->Bind();
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			MasterRenderer::BeginRender(mainCam);
+			//MasterRenderer::BeginRender(mainCam);
+			RenderSystem::BeginRender();
 
 			mainCam->owner->transform.position = camOriginalPos;
 			mainCam->owner->transform.rotaiton = camOriginalRot;
@@ -70,14 +71,15 @@ class WaterPlane : public MeshRenderer
 			basicMaterial->GetShader()->SetUniform4f("plane", vec4(0,-1,0, owner->transform.position.y));
 			refractionBuffer->Bind();
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			MasterRenderer::BeginRender(mainCam);
+			RenderSystem::BeginRender();
 			FBO::Unbind();
 		}
 
 		basicMaterial->GetShader()->SetUniform4f("plane", vec4(0, 0, 0, 0));
 		planeMat->GetShader()->SetUniform3f("camPos", mainCam->owner->transform.position);
 		planeMat->GetShader()->SetUniform1f("time", (float)Time::GetStartTimer());
-		MasterRenderer::Instance()->SubmitRender(this, planeMat);
+		//MasterRenderer::Instance()->SubmitRender(this, planeMat);
+		RenderSystem::SubmitRender(*this);
 	}
 
 	private:

@@ -41,7 +41,7 @@ class Material
 		Apply();
 	}
 
-	void SubmitMVP(mat4 model, mat4 view, mat4 projection)
+	virtual void SubmitMVP(mat4 model, mat4 view, mat4 projection)
 	{
 		mShader->SetMat4f("model", model);
 		mShader->SetMat4f("view", view);
@@ -51,6 +51,7 @@ class Material
 	void Bind()
 	{
 		mShader->RunProgram();
+		ApplyMaterial();
 	}
 
 	static Material* GetMaterial(std::string matID)
@@ -73,6 +74,8 @@ class Material
 	}
 
 	ShaderProgram* mShader = 0;
+
+
 
 	private:
 

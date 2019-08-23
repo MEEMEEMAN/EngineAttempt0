@@ -50,7 +50,7 @@ class Loader
 	* this function is going to search for the following image names in the following order:
 	right.png, left.png, top.png, bottom.png, front.png, back.png
 	*/
-	GLCube LoadCubemap(std::string directory);
+	GLCubeMap LoadCubemap(std::string directory);
 
 	//Load a rawmodel with position and draw index data.
 

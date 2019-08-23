@@ -39,7 +39,7 @@ RawModel Loader::Load(std::vector<vec3>* positions, std::vector<vec2>* uvs)
 	return model;
 }
 
-GLCube Loader::LoadCubemap(std::string directory)
+GLCubeMap Loader::LoadCubemap(std::string directory)
 {
 	unsigned int textureID;
 	glGenTextures(1, &textureID);
@@ -62,7 +62,7 @@ GLCube Loader::LoadCubemap(std::string directory)
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 	glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
 
-	return GLCube(textureID);
+	return GLCubeMap(textureID);
 }
 
 GLTexture Loader::loadTexture(std::string filepath, bool flipVertically)

@@ -2,17 +2,18 @@
 #include "pch.h"
 #include "GLObject.h"
 
-class GLCube : public GLObject
+class GLCubeMap : public GLObject
 {
 	public:
 
-	GLCube(unsigned int cubeID)
+	GLCubeMap()
 	{
-		mID = cubeID;
+		
 	}
 
-	GLCube()
+	GLCubeMap(unsigned int cubeID)
 	{
+		mID = cubeID;
 	}
 
 	void BindCubemap(unsigned int slot)

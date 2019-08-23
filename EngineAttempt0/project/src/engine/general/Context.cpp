@@ -31,7 +31,7 @@ bool Context::CreateContext(int screenWidth, int screenHeight, std::string title
 	}
 	glViewport(0,0, screenWidth, screenHeight);
 	glfwSetWindowSizeCallback(mWindow, resize_callback);
-	glfwRequestWindowAttention(mWindow);
+	RequestAttention();
 
 	mOK = true;
 	
@@ -62,4 +62,9 @@ void Context::resize_callback(GLFWwindow* window, int width, int height)
 	mScreenDimensions.x = width;
 	mScreenDimensions.y = height;
 	glViewport(0, 0, width, height);
+}
+
+void Context::RequestAttention()
+{
+	glfwRequestWindowAttention(mWindow);
 }

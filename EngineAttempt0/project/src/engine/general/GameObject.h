@@ -5,7 +5,7 @@
 
 /*
 * The building block of all game related objects, wheter it is UI, a weapon, a player or anything
-  related to the game aspect.
+that can be represented as an object in space.
 */
 class GameObject
 {

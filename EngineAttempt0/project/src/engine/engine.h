@@ -16,7 +16,6 @@
 #include "rendering/RawModel.h"
 #include "rendering/Loader.h"
 #include "rendering/Renderer.h"
-#include "rendering/MasterRenderer.h"
 #include "rendering/GLTexture.h"
 #include "rendering/Skybox.h"
 #include "rendering/FBO.h"
@@ -28,3 +27,6 @@
 #include "components/SwampClicker.h"
 
 #include "materials/TexturedMat.h"
+
+#include "systems/RenderSystem.h"
+#include "systems/Renderable.h"

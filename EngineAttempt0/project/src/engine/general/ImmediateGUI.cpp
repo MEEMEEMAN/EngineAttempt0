@@ -1,7 +1,7 @@
 #include "ImmediateGUI.h"
 #include "Context.h"
 
-bool ImmediateGUI::toggle = false, ImmediateGUI::toggleWireFrame = false, ImmediateGUI::vsyncBtn = false;
+bool ImmediateGUI::toggle = false, ImmediateGUI::toggleWireFrame = false, ImmediateGUI::vsyncBtn = true;
 
 void ImmediateGUI::Initialize(std::string GLSL_VERSION)
 {

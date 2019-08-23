@@ -99,7 +99,6 @@
     <ClCompile Include="project\dependencies\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="project\dependencies\imgui\imgui_widgets.cpp" />
     <ClCompile Include="project\dependencies\stb\stb_image.cpp" />
-    <ClCompile Include="project\Game.cpp" />
     <ClCompile Include="project\src\Core.cpp" />
     <ClCompile Include="project\src\engine\components\MeshRender.cpp" />
     <ClCompile Include="project\src\engine\components\MeshRenderer.cpp" />
@@ -116,12 +115,12 @@
     <ClCompile Include="project\src\engine\rendering\GLTexture.cpp" />
     <ClCompile Include="project\src\engine\rendering\Image.cpp" />
     <ClCompile Include="project\src\engine\rendering\Loader.cpp" />
-    <ClCompile Include="project\src\engine\rendering\MasterRenderer.cpp" />
     <ClCompile Include="project\src\engine\rendering\Material.cpp" />
     <ClCompile Include="project\src\engine\rendering\ModelImporter.cpp" />
     <ClCompile Include="project\src\engine\rendering\RawModel.cpp" />
     <ClCompile Include="project\src\engine\rendering\Renderer.cpp" />
     <ClCompile Include="project\src\engine\rendering\Shader.cpp" />
+    <ClCompile Include="project\src\engine\systems\RenderSystem.cpp" />
     <ClCompile Include="project\src\MainEntry.cpp" />
     <ClCompile Include="project\src\pch\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -129,7 +128,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="game\assets\materials\SkyboxMat.h" />
     <ClInclude Include="Game\components\Scene1.h" />
+    <ClInclude Include="game\components\SimpleMeshRenderer.h" />
     <ClInclude Include="game\components\Skybox.h" />
     <ClInclude Include="Game\components\WaterPlane.h" />
     <ClInclude Include="project\dependencies\assimp\include\assimp\ai_assert.h" />
@@ -517,12 +518,13 @@
     <ClInclude Include="project\src\engine\rendering\GLTexture.h" />
     <ClInclude Include="project\src\engine\rendering\Image.h" />
     <ClInclude Include="project\src\engine\rendering\Loader.h" />
-    <ClInclude Include="project\src\engine\rendering\MasterRenderer.h" />
     <ClInclude Include="project\src\engine\rendering\Material.h" />
     <ClInclude Include="project\src\engine\rendering\ModelImporter.h" />
     <ClInclude Include="project\src\engine\rendering\RawModel.h" />
     <ClInclude Include="project\src\engine\rendering\Renderer.h" />
     <ClInclude Include="project\src\engine\rendering\Shader.h" />
+    <ClInclude Include="project\src\engine\systems\Renderable.h" />
+    <ClInclude Include="project\src\engine\systems\RenderSystem.h" />
     <ClInclude Include="project\src\pch\pch.h" />
   </ItemGroup>
   <ItemGroup>

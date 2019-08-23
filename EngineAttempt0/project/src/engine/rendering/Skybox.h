@@ -56,5 +56,5 @@ class SkyboxRenderer
 	private:
 	RawModel skyboxCube;
 	Material skyboxMat;
-	GLCube cubemapTexture;
+	GLCubeMap cubemapTexture;
 };

@@ -62,5 +62,6 @@ class Scene
 		
 	}
 
+
 	std::vector<GameObject*> gameObjectRoots;
 };

@@ -36,6 +36,11 @@ class Context
 	//GLFW window resize callback.
 	static void resize_callback(GLFWwindow* window, int width, int height);
 
+	/*
+	* Request the user's attention by making the minimized application icon flash.
+	*/
+	static void RequestAttention();
+
 	private:
 	static GLFWwindow* mWindow;
 	static bool mOK;
