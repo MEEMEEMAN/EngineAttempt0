@@ -14,13 +14,13 @@ class SkyboxMat : public Material
 
 	void SubmitMVP(mat4 model, mat4 view, mat4 projection) override
 	{
-		mShader->SetMat4f("model", model);
+		GetShader()->SetMat4f("model", model);
 		view = mat4(mat3(view));
-		mShader->SetMat4f("view", view);
-		mShader->SetMat4f("projection", projection);
+		GetShader()->SetMat4f("view", view);
+		GetShader()->SetMat4f("projection", projection);
 	}
 
-	void Apply() override
+	void ApplyOnBind() override
 	{
 		cubemap.BindCubemap(0);
 	}

@@ -15,13 +15,14 @@ class SimpleMeshRenderer : public Renderable
 		ShaderProgram* basic = new ShaderProgram("game/assets/shaders/basic.vert",
 			"game/assets/shaders/basic.frag");
 
-		TexturedMaterial* mat = new TexturedMaterial(basic, "basic");
-		mat->AddTexture(loader.loadTexture("game/assets/textures/box.jpg", true), "image");
+		TexturedMaterial* mat = dynamic_cast<TexturedMaterial*>(Material::GetMaterial("basicBox"));
+		//new TexturedMaterial(basic, "basic");
+		//mat->AddTexture(loader.loadTexture("game/assets/textures/box.jpg", true), "image");
 		SetMaterial(mat);
 	}
 
 	void Update() override
 	{
-		RenderSystem::SubmitRender(*this);
+		RenderSystem::SubmitRender(this);
 	}
 };

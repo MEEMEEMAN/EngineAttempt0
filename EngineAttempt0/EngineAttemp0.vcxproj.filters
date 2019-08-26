@@ -96,9 +96,6 @@
     <ClCompile Include="project\src\engine\general\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="project\src\engine\general\AudioMaster.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="project\src\Core.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -115,6 +112,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="project\src\engine\systems\RenderSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="project\src\engine\systems\AudioMaster.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1199,9 +1199,6 @@
     <ClInclude Include="project\src\engine\components\GUIRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="project\src\engine\general\AudioMaster.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="project\dependencies\openAL\include\al.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1311,6 +1308,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="game\components\SimpleMeshRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="project\src\engine\systems\AudioMaster.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

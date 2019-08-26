@@ -9,7 +9,7 @@
 #include "general/Transform.h"
 #include "general/Application.h"
 #include "general/Scene.h"
-#include "general/AudioMaster.h"
+#include "systems/AudioMaster.h"
 #include "general/SceneManager.h"
 
 #include "rendering/Shader.h"

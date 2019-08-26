@@ -2,7 +2,7 @@
 #include "pch.h"
 #include "..//general/Component.h"
 #include "..//general/GameObject.h"
-#include "..//general/AudioMaster.h"
+#include "..//systems/AudioMaster.h"
 
 class AudioListener : public Component
 {
@@ -25,7 +25,7 @@ class AudioListener : public Component
 
 		prevPos = owner->transform.position;
 
-		AudioMaster::Instance()->GetSystem()->
+		AudioSystem::GetSystem()->
 		set3DListenerAttributes(0, &pos, &vel, &forward, &up);
 	}
 

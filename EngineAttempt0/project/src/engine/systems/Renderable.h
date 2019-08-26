@@ -4,6 +4,9 @@
 #include "..//rendering/Material.h"
 #include "..//rendering/RawModel.h"
 
+/*
+* A base Renderable class that provides functionally for all things renderable.
+*/
 class Renderable : public Component
 {
 	public:
@@ -15,7 +18,7 @@ class Renderable : public Component
 
 	Material* GetMaterial() const
 	{
-		return mMaterial;
+		return mMaterial.get();
 	}
 
 	RawModel GetModel() const
@@ -25,7 +28,7 @@ class Renderable : public Component
 
 	void SetMaterial(Material* mat)
 	{
-		mMaterial = mat;
+		mMaterial.reset(mat);
 	}
 
 	void SetModel(RawModel model)
@@ -34,6 +37,6 @@ class Renderable : public Component
 	}
 
 	protected:
-	Material* mMaterial = nullptr;
+	std::unique_ptr<Material> mMaterial;
 	RawModel mModel;
 };

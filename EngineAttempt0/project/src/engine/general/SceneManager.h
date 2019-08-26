@@ -31,6 +31,11 @@ class SceneManager
 		return currentScene;
 	}
 
+	static void CleanUp()
+	{
+		delete(currentScene);
+	}
+
 	private:
 	static Scene* currentScene;
 };

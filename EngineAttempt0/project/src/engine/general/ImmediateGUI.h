@@ -63,5 +63,13 @@ class ImmediateGUI
 		
 	}
 
+	static void CleanUp()
+	{
+		ImGui_ImplGlfw_Shutdown();
+		ImGui_ImplOpenGL3_Shutdown();
+		ImGui::DestroyContext(imContext);
+	}
+
 	private:
+	static ImGuiContext* imContext;
 };

@@ -1,7 +1,7 @@
 #include "Loader.h"
 #include "ModelImporter.h"
 
-AudioMaster* Loader::audioMaster = nullptr;
+AudioSystem* Loader::audioMaster = nullptr;
 
 RawModel Loader::Load(unsigned int index, unsigned int dimensions, std::vector<float>* positions)
 {

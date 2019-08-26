@@ -14,7 +14,7 @@ class WaterPlane : public Renderable
 		ShaderProgram* waterShader = new ShaderProgram("game/assets/shaders/water.vert", 
 														"game/assets/shaders/water.frag");
 		planeMat = new TexturedMaterial(waterShader, "planeMat");
-		planeMat->cullBackFace = false;
+		planeMat->SetFaceCull(false);
 
 		mainCam = SceneManager::GetCurrentScene()->GetMainCamera();
 		refractionBuffer = new FBO(resX, resY);
@@ -79,7 +79,7 @@ class WaterPlane : public Renderable
 		planeMat->GetShader()->SetUniform3f("camPos", mainCam->owner->transform.position);
 		planeMat->GetShader()->SetUniform1f("time", (float)Time::GetStartTimer());
 		//MasterRenderer::Instance()->SubmitRender(this, planeMat);
-		RenderSystem::SubmitRender(*this);
+		RenderSystem::SubmitRender(this);
 	}
 
 	private:

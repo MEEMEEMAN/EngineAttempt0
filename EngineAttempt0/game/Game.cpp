@@ -21,6 +21,8 @@ public:
 
 		Initialization();
 		UpdateLoop();
+
+		delete(context);
 	}
 
 	const std::string GLSL_VERSION = "#version 420 core";
@@ -31,9 +33,7 @@ public:
 		ImmediateGUI::Initialize(GLSL_VERSION);
 
 		RenderSystem::Initialize(nullptr);
-		
-		AudioMaster* audioMaster = new AudioMaster();
-		audioMaster->Init(32);
+		AudioSystem::Initialize(32);
 
 		Scene1* scene = new Scene1();
 		scene->ConstructScene();
@@ -48,6 +48,7 @@ public:
 		glClearColor(0.2,0.2,0.7,1);
 		glEnable(GL_CLIP_DISTANCE0);
 		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_MULTISAMPLE);
 		bool cursorToggle = false;
 
 		while (!context->WindowShouldClose())
@@ -75,10 +76,11 @@ public:
 			SceneManager::PreRenderUpdate();
 			RenderSystem::BeginRender(SceneManager::GetCurrentScene()->GetMainCamera());
 			SceneManager::PostRenderUpdate();
+
 			RenderSystem::ClearRenderBuffer();
 
 			ImmediateGUI::Render();
-			AudioMaster::UpdateInstance();
+			AudioSystem::Update();
 			ImmediateGUI::EndFrame();
 
 			Context::SwapBuffers();
@@ -91,7 +93,11 @@ public:
 
 	void Cleanup()
 	{
-		
+		SceneManager::CleanUp();
+		ImmediateGUI::CleanUp();
+		Material::CleanUp();
+		AudioSystem::CleanUp();
+		context->Terminate();
 	}
 
 

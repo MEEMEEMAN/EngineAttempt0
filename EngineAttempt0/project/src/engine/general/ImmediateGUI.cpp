@@ -2,11 +2,13 @@
 #include "Context.h"
 
 bool ImmediateGUI::toggle = false, ImmediateGUI::toggleWireFrame = false, ImmediateGUI::vsyncBtn = true;
+ImGuiContext* ImmediateGUI::imContext = nullptr;
 
 void ImmediateGUI::Initialize(std::string GLSL_VERSION)
 {
 	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
+	imContext = ImGui::CreateContext();
+	ImGui::SetCurrentContext(imContext);
 	ImGuiIO& io = ImGui::GetIO();
 	ImGui::StyleColorsLight();
 	ImGui_ImplGlfw_InitForOpenGL(Context::GetMainWindow(), true);

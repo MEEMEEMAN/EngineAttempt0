@@ -19,7 +19,7 @@ class SkyboxRenderer
 		ShaderProgram* skyboxProgram = new ShaderProgram("project/assets/shaders/skybox.vert", 
 									"project/assets/shaders/skybox.frag");
 		skyboxMat = Material(skyboxProgram, "skyboxMat");
-		skyboxMat.cullBackFace = false;
+		skyboxMat.SetFaceCull(false);
 		cubemapTexture = loader.LoadCubemap(cubefolderpath);
 	}
 
@@ -32,7 +32,6 @@ class SkyboxRenderer
 	void Render()
 	{		
 		skyboxMat.Bind();
-		skyboxMat.ApplyMaterial();
 
 		mat4 view = cam->GetViewMatrix();
 		view = mat4(mat3(view));

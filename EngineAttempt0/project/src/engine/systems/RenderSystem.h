@@ -20,7 +20,7 @@ class RenderSystem
 		mRenderCam = camera;
 	}
 
-	static void SubmitRender(Renderable renderable)
+	static void SubmitRender(Renderable* renderable)
 	{
 		AddToPool(renderable);
 	}
@@ -74,7 +74,7 @@ class RenderSystem
 
 	static void Render(Camera* renderCamera)
 	{
-		std::unordered_map<Material*, std::vector<Renderable>>::iterator it;
+		std::unordered_map<Material*, std::vector<Renderable*>>::iterator it;
 		it = renderBuffer.begin();
 
 		for (; it != renderBuffer.end(); it++)
@@ -84,13 +84,13 @@ class RenderSystem
 
 			for (size_t i = 0; i < it->second.size(); i++)
 			{
-				Renderable& renderable = it->second[i];
-				GameObject* renderedObject = renderable.owner;
+				Renderable* renderable = it->second[i];
+				GameObject* renderedObject = renderable->owner;
 
 				currentMaterial->SubmitMVP(renderedObject->transform.GetModel(),
 											renderCamera->GetViewMatrix(), 
 											renderCamera->GetProjectionMatrix());
-				Draw(renderable.GetModel());
+				Draw(renderable->GetModel());
 			}
 		}
 	}
@@ -109,23 +109,23 @@ class RenderSystem
 		}
 	}
 
-	static void AddToPool(Renderable renderable)
+	static void AddToPool(Renderable* renderable)
 	{
-		std::unordered_map<Material*, std::vector<Renderable>>::iterator it;
-		it = renderBuffer.find(renderable.GetMaterial());
+		std::unordered_map<Material*, std::vector<Renderable*>>::iterator it;
+		it = renderBuffer.find(renderable->GetMaterial());
 
 		if (it != renderBuffer.end())
 		{
-			renderBuffer[renderable.GetMaterial()].push_back(renderable);
+			renderBuffer[renderable->GetMaterial()].push_back(renderable);
 		}
 		else
 		{
-			std::vector<Renderable> pool;
+			std::vector<Renderable*> pool;
 			pool.push_back(renderable);
-			renderBuffer.insert(std::make_pair(renderable.GetMaterial(), pool));
+			renderBuffer.insert(std::make_pair(renderable->GetMaterial(), pool));
 		}
 	}
 
 	static Camera* mRenderCam;
-	static std::unordered_map<Material*, std::vector<Renderable>> renderBuffer;
+	static std::unordered_map<Material*, std::vector<Renderable*>> renderBuffer;
 };

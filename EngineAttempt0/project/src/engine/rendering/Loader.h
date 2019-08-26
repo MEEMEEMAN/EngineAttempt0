@@ -4,7 +4,7 @@
 #include "ModelImporter.h"
 #include "GLCube.h"
 #include "Image.h"
-#include "..//general/AudioMaster.h"
+#include "..//systems/AudioMaster.h"
 
 class Loader
 {
@@ -13,15 +13,14 @@ class Loader
 	AudioClip LoadAudio(std::string filepath, bool stream)
 	{
 		FMOD::Sound* pSound = nullptr;
-		AudioMaster* audioMaster = AudioMaster::Instance();
 
 		if (stream)
 		{
-			audioMaster->GetSystem()->createStream(filepath.c_str(), FMOD_3D, nullptr, &pSound);
+			AudioSystem::GetSystem()->createStream(filepath.c_str(), FMOD_3D, nullptr, &pSound);
 		}
 		else
 		{
-			audioMaster->GetSystem()->createSound(filepath.c_str(), FMOD_3D, nullptr, &pSound);
+			AudioSystem::GetSystem()->createSound(filepath.c_str(), FMOD_3D, nullptr, &pSound);
 		}
 
 		unsigned int soundID = audioMaster->RegisterAudio(pSound);
@@ -67,7 +66,7 @@ class Loader
 	RawModel ImportSimpleModel(std::string filepath);
 
 	private:
-	static AudioMaster* audioMaster;
+	static AudioSystem* audioMaster;
 	ModelImporter importer;
 
 	//Generate a vertex array and return the id.

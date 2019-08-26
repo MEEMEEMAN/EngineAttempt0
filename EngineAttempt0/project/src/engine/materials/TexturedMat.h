@@ -16,7 +16,7 @@ class TexturedMaterial : public Material
 	*/
 	void AddTexture(GLTexture texture)
 	{
-		mShader->RunProgram();
+		GetShader()->RunProgram();
 
 		textures.push_back(texture);
 		
@@ -24,7 +24,7 @@ class TexturedMaterial : public Material
 		unsigned int value = textures.size() - 1;
 		ss << "texture" << value;
 		
-		mShader->SetUniform1i(ss.str(),value);
+		GetShader()->SetUniform1i(ss.str(),value);
 	}
 
 	/*
@@ -32,15 +32,15 @@ class TexturedMaterial : public Material
 	*/
 	void AddTexture(GLTexture texture, std::string uniformName)
 	{
-		mShader->RunProgram();
+		GetShader()->RunProgram();
 
 		textures.push_back(texture);
 		unsigned int value = textures.size() - 1;
 
-		mShader->SetUniform1i(uniformName, value);
+		GetShader()->SetUniform1i(uniformName, value);
 	}
 
-	void Apply() override
+	void ApplyOnBind() override
 	{
 		GLTexture::Unbind();
 		for (size_t i = 0; i < textures.size(); i++)

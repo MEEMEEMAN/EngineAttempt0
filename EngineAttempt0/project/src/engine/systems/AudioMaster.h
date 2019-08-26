@@ -35,21 +35,18 @@ class AudioClip
 };
 
 
-class AudioMaster
+class AudioSystem
 {
 	public:
 
 	/*
 	* Initializes the Audio engine.
-	* AudioMaster acts as a singleton, where only 1 instance of it can exist. this
-	instance can be returned via the Instance function.
+	* maxChannelCount reffers to the maximum allowed audio channels to play at one time.
 	*/
-	void Init(int maxChannelCount)
+	static void Initialize(int maxChannelCount)
 	{
 		FMOD::System_Create(&pSystem);
 		pSystem->init(maxChannelCount, FMOD_INIT_NORMAL, nullptr);
-
-		instance = this;
 	}
 
 	/*
@@ -57,35 +54,30 @@ class AudioMaster
 	* AudioClips that were not registered cannot be played.
 	* AudioClips can be loaded via the Loader.
 	*/
-	unsigned int RegisterAudio(FMOD::Sound* sound);
+	static unsigned int RegisterAudio(FMOD::Sound* sound);
 
 	/*
 	* Plays a single AudoClip playback in 3d space.
 	*/
-	void PlayOneShot3D(AudioClip clip, float volume, float pitch, vec3 position, vec3 velocity);
+	static void PlayOneShot3D(AudioClip clip, float volume, float pitch, vec3 position, vec3 velocity);
 
 	/*
 	* Plays a single AudioClip in 2D space.
 	*/
-	void PlayOneShot(AudioClip clip, float volume, float pitch);
+	static void PlayOneShot(AudioClip clip, float volume, float pitch);
 
 	/*
 	* Updates the Audio engine.
 	*/
-	void Update()
+	static void Update()
 	{
 		pSystem->update();
-	}
-
-	static void UpdateInstance()
-	{
-		instance->Update();
 	}
 
 	/*
 	* Returns FMOD's system component.
 	*/
-	inline FMOD::System* GetSystem() const
+	static inline FMOD::System* const GetSystem()
 	{
 		return pSystem;
 	}
@@ -98,13 +90,10 @@ class AudioMaster
 	{
 		return idPool + 1;
 	}
-	/*
-	* Returns a singleton instance of the AudioMaster.
-	*/
 
-	static AudioMaster* Instance()
+	static void CleanUp()
 	{
-		return instance;
+		pSystem->close();
 	}
 
 	private:
@@ -112,11 +101,9 @@ class AudioMaster
 	* Get a sound from the registeredSounds map.
 	* Returns null if the id is invalid.
 	*/
-	FMOD::Sound* GetSound(unsigned int id);
-
-	FMOD::System* pSystem = nullptr;
+	static FMOD::Sound* GetSound(unsigned int id);
+	static FMOD::System* pSystem;
 	static unsigned int idPool;
-	std::unordered_map<unsigned int, FMOD::Sound*> registeredSounds; 
-	std::vector<FMOD::Channel*> playing;
-	static AudioMaster* instance;
+	static std::unordered_map<unsigned int, FMOD::Sound*> registeredSounds; 
+	static std::vector<FMOD::Channel*> playing;
 };

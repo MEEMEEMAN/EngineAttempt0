@@ -12,6 +12,8 @@
 #include <thread>
 #include <mutex>
 #include <atomic>
+#include <algorithm>
+#include <memory>
 
 
 #include "assimp/Importer.hpp"

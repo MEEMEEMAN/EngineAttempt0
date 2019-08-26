@@ -2,6 +2,16 @@
 #include "engine.h"
 #include "..//assets/materials/SkyboxMat.h"
 
+void BindFunc()
+{
+	glDepthFunc(GL_LEQUAL);
+}
+
+void UnbindFunc()
+{
+	glDepthFunc(GL_LESS);
+}
+
 class Skybox : public Renderable
 {
 	public:
@@ -16,20 +26,22 @@ class Skybox : public Renderable
 
 		SkyboxMat* skyboxMat = new SkyboxMat(skyboxShader, "skyboxMat");
 		skyboxMat->SetCubemapTexture(loader.LoadCubemap("game/assets/textures/spaceCubemap"));
-		skyboxMat->cullBackFace = false;
+		skyboxMat->SetFaceCull(false);
+
+		skyboxMat->SubscribeBindCallback(BindFunc);
+		skyboxMat->SubscribeUnBindCallback(UnbindFunc);
 
 		SetMaterial(skyboxMat);
 	}
 
 	void PreRender() override
 	{
-		glDepthFunc(GL_LEQUAL);
-		RenderSystem::SubmitRender(*this);
+		RenderSystem::SubmitRender(this);
 	}
 
 	void PostRender() override
 	{
-		glDepthFunc(GL_LEQUAL);
+		//glDepthFunc(GL_LESS);
 	}
 
 	private:

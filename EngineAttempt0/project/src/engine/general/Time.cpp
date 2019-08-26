@@ -26,7 +26,7 @@ void Time::Update()
 
 	//Converting from nanoseconds to seconds.
 	if(frame > 0)
-	mDeltaTime = delta.count() * 0.000000001;
+	mDeltaTime = delta.count() * 1e-9;
 	CalcAVGDelta();
 	
 	if (frame > 0)

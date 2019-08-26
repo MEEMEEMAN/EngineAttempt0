@@ -10,36 +10,30 @@ class GUIRenderer : public Component
 {
 	public:
 
-	GUIRenderer(TexturedMaterial texmat)
+	GUIRenderer(TexturedMaterial* texmat)
 	{
 		Loader loader;
 		std::vector<vec3> tempPos = positions;
 		std::vector<vec2> tempUvs = uvs;
 		std::vector<unsigned int> tempIndex = indices;
 		uiModel = loader.Load(&tempPos, &tempUvs, &tempIndex);
-		texturedMat = texmat;
+		texturedMat.reset(texmat);
 	}
 
 	void Update() override
 	{
 		uiModel.Bind();
-		texturedMat.Bind();
-		texturedMat.ApplyMaterial();
+		texturedMat->Bind();
 
-		texturedMat.GetShader()->SetMat4f("model", owner->transform.GetModel());
+		texturedMat->GetShader()->SetMat4f("model", owner->transform.GetModel());
 
 		glDrawElements(GL_TRIANGLES, uiModel.GetDrawCount(), GL_UNSIGNED_INT, 0);
-	}
-
-	auto clone() const -> GUIRenderer* override
-	{
-		return new GUIRenderer(*this);
 	}
 
 	private:
 	mat4 mProjection;
 	RawModel uiModel;
-	TexturedMaterial texturedMat;
+	std::unique_ptr<TexturedMaterial> texturedMat;
 	const std::vector<vec3> positions = 
 	{
 		vec3(-1, -1, 0), //bottom left

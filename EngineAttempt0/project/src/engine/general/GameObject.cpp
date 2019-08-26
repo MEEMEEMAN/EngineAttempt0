@@ -3,7 +3,8 @@
 void GameObject::AddComponent(Component* component)
 {
 	component->owner = this;
-	components.push_back(component);
+	std::unique_ptr<Component> uniqComponent(component);
+	components.push_back(std::move(uniqComponent));
 }
 
 void GameObject::Destroy()
@@ -11,7 +12,7 @@ void GameObject::Destroy()
 	for (size_t i = 0; i < components.size(); i++)
 	{
 		components[i]->Destroy();
-		delete(components[i]);
+		components[i].reset();
 	}
 }
 
@@ -22,6 +23,9 @@ void GameObject::UpdateTransform()
 
 void GameObject::StartComponents()
 {
+	if (!mActive)
+		return;
+
 	for (size_t i = 0; i < components.size(); i++)
 	{
 		components[i]->StartComponent();
@@ -30,6 +34,9 @@ void GameObject::StartComponents()
 
 void GameObject::Update()
 {
+	if(!mActive)
+		return;
+
 	UpdateTransform();
 
 	for (size_t i = 0; i < components.size(); i++)
@@ -40,6 +47,9 @@ void GameObject::Update()
 
 void GameObject::PreRender()
 {
+	if (!mActive)
+		return;
+
 	for (size_t i = 0; i < components.size(); i++)
 	{
 		components[i]->PreRenderUpdate();
@@ -48,6 +58,9 @@ void GameObject::PreRender()
 
 void GameObject::PostRender()
 {
+	if (!mActive)
+		return;
+
 	for (size_t i = 0; i < components.size(); i++)
 	{
 		components[i]->UpdatePostRender();

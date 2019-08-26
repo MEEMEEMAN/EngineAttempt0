@@ -8,7 +8,6 @@ const std::string GLSL_VERSION = "#version 420 core";
 
 int main()
 {
-
 	PerhapsApplication* application = new PerhapsApplication();
 	application->Entry();
 

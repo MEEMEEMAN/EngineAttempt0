@@ -1,6 +1,6 @@
 #pragma once
 #include "pch.h"
-#include "..//general/AudioMaster.h"
+#include "systems/AudioMaster.h"
 #include "..//general/Component.h"
 #include "..//general/GameObject.h"
 
@@ -24,7 +24,7 @@ class AudioSource : public Component
 
 	void PlayOneShot(float volume)
 	{
-		AudioMaster::Instance()->PlayOneShot(currentClip, volume, pitch);
+		AudioSystem::PlayOneShot(currentClip, volume, pitch);
 	}
 
 	void PlayOneShot(AudioClip clip, float volume)
@@ -32,7 +32,7 @@ class AudioSource : public Component
 		vec3 velocity = owner->transform.position - prevPos;
 		prevPos = owner->transform.position;
 
-		AudioMaster::Instance()->PlayOneShot3D(clip, volume, pitch, owner->transform.position, velocity);
+		AudioSystem::PlayOneShot3D(clip, volume, pitch, owner->transform.position, velocity);
 	}
 
 	void SetClip(AudioClip clip)

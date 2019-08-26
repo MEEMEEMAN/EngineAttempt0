@@ -18,6 +18,7 @@ bool Context::CreateContext(int screenWidth, int screenHeight, std::string title
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_FOCUSED, GLFW_TRUE);
+	glfwWindowHint(GLFW_SAMPLES, 4);
 
 	mWindow = glfwCreateWindow(screenWidth, screenHeight, title.c_str(), 0, 0);
 	mScreenDimensions.x = screenWidth;

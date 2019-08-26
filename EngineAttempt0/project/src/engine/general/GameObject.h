@@ -17,7 +17,7 @@ public:
 	{
 		for (size_t i = 0; i < components.size(); i++)
 		{
-			if (T * derived = dynamic_cast<T*>(components[i]))
+			if (T * derived = dynamic_cast<T*>(components[i].get()))
 			{
 				return derived;
 			}
@@ -45,6 +45,16 @@ public:
 
 	void PreRender();
 
+	void SetActive(bool value)
+	{
+		mActive = value;
+	}
+
+	inline bool isActive() const
+	{
+		return mActive;
+	}
+
 	/*
 	* Runs start method. 
 	*/
@@ -55,5 +65,8 @@ public:
 	Transform transform;
 protected:
 
-	std::vector<Component*> components;
+	std::vector<std::unique_ptr<Component>> components;
+
+	private:
+	bool mActive = true;
 };
